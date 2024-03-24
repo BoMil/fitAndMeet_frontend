@@ -1,6 +1,6 @@
 {
     "*": {
-      "target": "https://fit-and-meet-backend.vercel.app/",
+      "target": "https://fit-and-meet-backend.vercel.app",
       "secure": false
     }
 }
