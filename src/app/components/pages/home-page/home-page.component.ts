@@ -84,21 +84,6 @@ export class HomePageComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.userApiService.getAllUsers().subscribe({
-            next: (data) => {
-                // this.allUsers = [];
-                for (let index = 0; index < data.length; index++) {
-                    const user: User = new User(data[index]);
-                    // this.allUsers.push(user);
-                }
-                console.log('getAllUsers', data);
-
-            },
-            error: (err) => {
-                this.toastr.error('Failed to get all users');
-                console.log('getAllUsers', err);
-            }
-        });
         this.zoomMapToCalculatedCoordinates();
         this.listenAuthStateChanges();
         this.listenWhenUserNotificationsArrived();
