@@ -38,7 +38,9 @@ import { SharedModule } from './_modules/shared/shared.module';
 import { PublicLayoutComponent } from './components/public-layout/public-layout.component';
 import { AppConfig } from './config/config';
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+const appConfig = new AppConfig();
+const config: SocketIoConfig = { url: appConfig.setting['pathApi'], options: {} };
+
 @NgModule({
 	declarations: [
 		AppComponent,
