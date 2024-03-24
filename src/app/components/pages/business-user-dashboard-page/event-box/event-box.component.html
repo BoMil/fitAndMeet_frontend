@@ -1,0 +1,30 @@
+<div class="event-box-container" [ngClass]="{
+    pending: data.status === 'pending',
+    accepted: data.status === 'accepted',
+    declined: data.status === 'declined',
+    available: data.status === 'available'
+    }">
+    <div class="title-box">{{ data.description }}</div>
+
+    <div class="time-box">
+        <div class="date">
+            <span class="label">From: </span> <span class="value">{{ data.start_at | date : 'medium'}}</span>
+        </div>
+        <div class="date">
+            <span class="label">To: </span> <span class="value">{{ data.end_at | date : 'medium'}}</span>
+        </div>
+    </div>
+
+    <!-- TODO: Should be visible only on status available -->
+    <div class="buttons-container">
+        <button class="button regular--medium">Book event</button>
+    </div>
+
+    <div class="clock">
+        <mat-icon [ngClass]="{
+            pending: data.status === 'pending',
+            accepted: data.status === 'accepted',
+            declined: data.status === 'declined',
+            available: data.status === 'available'}">access_time</mat-icon>
+    </div>
+</div>

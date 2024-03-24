@@ -1,0 +1,145 @@
+<div class="signin-container">
+    <div class="close-icon" (click)="closeModal()">
+        <mat-icon>close</mat-icon>
+    </div>
+    <div class="info-container" [@loginRegister]=" isLoginForm ? 'moveInfoLeft' : 'moveInfoRight'" >
+        <div class="logo-box">
+            <mat-icon>fitbit</mat-icon>
+        </div>
+
+        <div class="content-box">
+            <div class="text-container">{{ infoText }}</div>
+        <button class="button full-width green--medium" (click)="infoBtnPressed()">{{ infoButtonText }}</button>     
+        </div>
+    </div>
+
+    <div [@loginRegister]="!isLoginForm ? 'moveFormLeft' : 'moveFormRight'" class="form-container" [class.register]="!isLoginForm">
+        <form *ngIf="isLoginForm"  [formGroup]="loginForm" class="">
+    
+            <app-input-field 
+                [canValidate]="isSubmitted"
+                [isMandatory]="true"
+                [inputText]="loginForm.controls.username"
+                [placeholderText]="'Your username'"
+                [label]="'Username'" />
+    
+            <app-input-field 
+                [canValidate]="isSubmitted"
+                [isMandatory]="true"
+                [inputText]="loginForm.controls.password"
+                [errorMessage]="'Password must contain minimum 8 and maximum 20 characters, at least one uppercase and one lowercase letter, one number and one special character'"
+                [placeholderText]="'Your password'"
+                [label]="'Password'" />
+    
+            <div class="buttons-container align-right">
+                <button class="button blue--big full-width" (click)="loginPressed()">Login</button>
+            </div>
+        </form>
+
+
+        <form *ngIf="!isLoginForm" [formGroup]="registerForm">
+
+
+            <app-input-field 
+                [canValidate]="isSubmitted"
+                [isMandatory]="true"
+                [inputText]="registerForm.controls.firstName"
+                [placeholderText]="'Your name'"
+                [label]="'First name'" />
+    
+            <app-input-field 
+                [canValidate]="isSubmitted"
+                [isMandatory]="true"
+                [inputText]="registerForm.controls.lastName"
+                [placeholderText]="'Your last name'"
+                [label]="'Last name'" />
+    
+            <app-input-field 
+                [canValidate]="isSubmitted"
+                [isMandatory]="true"
+                [inputText]="registerForm.controls.username"
+                [placeholderText]="'Your username'"
+                [label]="'Username'" />
+    
+            <app-input-field 
+                [canValidate]="isSubmitted"
+                [isMandatory]="true"
+                [inputText]="registerForm.controls.email"
+                [placeholderText]="'Your email'"
+                [label]="'Email'" />
+
+                <app-international-phone
+                    [phoneNumber]="registerForm.controls.phoneNumber"
+                    [isMandatory]="true"
+                    [canValidateEmptyField]="isSubmitted"
+                    [canValidatePhoneNumber]="isSubmitted"
+                    [label]="'Your phone'"
+                ></app-international-phone>
+
+            <app-search-field
+                [label]="'Address'"
+                [placeholder]="'Enter your address'"
+                [isMandatory]="true"
+                [canValidate]="isSubmitted"
+                [inputText]="registerForm.controls.address"
+                (searchTextChanged)="getLocationsBySearchQuery($event)" >
+
+                <div menuOptions>
+                    <div class="option-item" *ngFor="let location of possibleLocations" (click)="selectLocation(location)">
+                        <span>{{ location.description }}</span>
+                    </div>
+                </div>
+            </app-search-field>
+
+            <div class="map-label">Also, you can choose address manually on the map</div>
+            <div class="map-container">
+                <google-map 
+                    width="100%"
+                    height="200px"
+                    [center]="mapCenter"
+                    [zoom]="mapService.zoom"
+                    (mapClick)="addMarker($event)">
+                        <map-marker *ngFor="let position of markerPositions" [position]="position" [options]="markerOptions" />
+                </google-map>
+            </div>
+
+            <div [class.visible]="(!addressLat || !addressLong) && isSubmitted" class="form-control-error">
+                Address must be selected on the map
+            </div>
+
+            <div class="gender-box">
+                <app-single-select-dropdown
+                    [elements]="genderOptions"
+                    [label]="'Gender'"
+                    [placeholderText]="'Select gender'"
+                    [isMandatory]="true"
+                    [canValidate]="isSubmitted"
+                    [dropdownHeight]="'48px'"
+                    [dropdownMenuMaxHeight]="'200px'"
+                    (selectionChanged)="genderSelected($event)"
+                ></app-single-select-dropdown>
+
+                <app-datepicker-field
+                    [label]="'Date of Birth'"
+                    [placeholderText]="'dd/mm/yyyy'"
+                    [canValidate]="isSubmitted"
+                    [isMandatory]="true"
+                    [date]="registerForm.controls.dateOfBirth"
+                ></app-datepicker-field>
+            </div>
+    
+            <app-input-field 
+                [canValidate]="isSubmitted"
+                [isMandatory]="true"
+                [inputText]="registerForm.controls.password"
+                [placeholderText]="'Your password'"
+                [errorMessage]="'Password must contain minimum 8 and maximum 20 characters, at least one uppercase and one lowercase letter, one number and one special character'"
+                [label]="'Password'" />
+    
+            <div class="buttons-container align-right">
+                <button class="button blue--big full-width" (click)="registerPressed()">Register</button>
+            </div>
+        </form>
+    </div>
+
+</div>

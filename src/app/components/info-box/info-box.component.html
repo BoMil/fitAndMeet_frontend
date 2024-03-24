@@ -1,0 +1,40 @@
+<div class="info-box-container">
+    <div class="image-box">
+        <div class="avatar-container">
+            <img *ngIf="data?.avatar" else logoImg [src]="data.avatar" alt="Coach image">
+            <mat-icon class="account-icon" *ngIf="!data?.avatar" >account_circle</mat-icon>
+        </div>
+
+        <!-- <div class="star-box">
+            <mat-icon>star</mat-icon>
+        </div> -->
+    </div>
+    <div class="info-box">
+        <div class="info-title">Coach info</div>
+        <div class="review-item">
+            <span class="title">Review: </span>
+            <div class="stars-container">
+                <mat-icon>star</mat-icon> <mat-icon>star</mat-icon> <mat-icon>star</mat-icon> <mat-icon>star</mat-icon>
+                <mat-icon>star</mat-icon>
+            </div>
+        </div>
+        <div class="info-item">
+            <span class="title">Name: </span><span class="value">{{ data.name ? data.name : '/' }}</span>
+        </div>
+        <div class="info-item">
+            <span class="title">Last name: </span><span class="value">{{ data.lastName ? data.lastName : '/' }}</span>
+        </div>
+        <div class="info-item">
+            <span class="title">User-name: </span><span class="value">{{ data.userName ? data.userName : '/' }}</span>
+        </div>
+        <div class="info-item">
+            <span class="title">Email: </span><span class="value">{{ data.email ? data.email : '/' }}</span>
+        </div>
+
+        <div class="buttons-container" *ngIf="data.isButtonsVisible">
+            <button *ngIf="data.isOpenBUDashboardButtonVisible" class="button full-width green" (click)="redirectToUserDashboard()">Schedule training</button>           
+            <button *ngIf="!data.isOpenBUDashboardButtonVisible" class="button full-width blue" (click)="followBusinessUser()">Connect coach</button>            
+
+        </div>
+    </div>
+</div>

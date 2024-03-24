@@ -1,0 +1,80 @@
+<div class="home-page-container">
+    <div class="main-container">
+        <div class="map-container">
+            <google-map *ngIf="mapService.isMapLoaded"
+                #desktopMap
+                width="100%"
+                height="560px"
+                [center]="mapService.center"
+                [zoom]="mapService.zoom"
+                (mapInitialized)="onMapInitialized($event)"
+                (boundsChanged)="onMapBoundsChanged()">
+                <ng-container *ngFor="let company of companiesStateService.companies; let i = index">
+                    <map-marker *ngIf="!company.followingStatus" #marker="mapMarker"
+                        (mapClick)="companySelectedOnMap(marker, i, company)"
+                        [position]="{ lat: company.location.lat ?? 0, lng: company.location.long ?? 0 }"
+                        [options]="markerOptions" >
+                    </map-marker>
+
+                    <map-marker *ngIf="company.followingStatus === followStatus.FOLLOWING"  #marker="mapMarker"
+                        (mapClick)="companySelectedOnMap(marker, i, company)"
+                        [position]="{ lat: company.location.lat ?? 0, lng: company.location.long ?? 0 }"
+                        [options]="followedMarkerOptions" >
+                    </map-marker>
+                    <map-info-window > {{ company.name }} </map-info-window>
+                </ng-container>
+            </google-map>
+        </div>
+
+        <div class="map-container-smallScreens">
+            <google-map *ngIf="mapService.isMapLoaded"
+                #mobileMap
+                width="100%"
+                height="400px"
+                [center]="mapService.center"
+                [zoom]="mapService.zoom"
+                (mapInitialized)="onMapInitialized($event, 'mobile')"
+                (boundsChanged)="onMapBoundsChanged()">
+            <ng-container *ngFor="let company of companiesStateService.companies; let i = index">
+                <map-marker *ngIf="!company.followingStatus" #marker="mapMarker"
+                    (mapClick)="companySelectedOnMap(marker, i, company)"
+                    [position]="{ lat: company.location.lat ?? 0, lng: company.location.long ?? 0 }"
+                    [options]="markerOptions" >
+                </map-marker>
+
+                <map-marker *ngIf="company.followingStatus === followStatus.FOLLOWING"  #marker="mapMarker"
+                    (mapClick)="companySelectedOnMap(marker, i, company)"
+                    [position]="{ lat: company.location.lat ?? 0, lng: company.location.long ?? 0 }"
+                    [options]="followedMarkerOptions" >
+                </map-marker>
+                <map-info-window > {{ company.name }} </map-info-window>
+            </ng-container>
+        </google-map>
+        </div>
+
+        <div class="user-info">
+            <app-regular-tabs [tabs]="tabs" (tabSelected)="tabSelected($event)"></app-regular-tabs>
+
+            <ng-container [ngSwitch]="selectedTab.name">
+                <ng-container *ngSwitchCase="'Company'">
+                    <div class="items-container">
+                        <app-collapsible-item *ngFor="let company of companiesStateService.companiesInArea"
+                            (sectionToggled)="onCompanySectionToggled($event)"
+                            [sectionTitle]="company.name"
+                            [sectionData]="company"
+                            [itemId]="company.id"
+                            [setSectionState]="selectedSection">
+                            <ng-container sectionContent>
+                                <app-company-info-box [company]="company" />
+                            </ng-container>
+                        </app-collapsible-item>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'Coaches'">
+                    <app-custom-carousel [setCarouselItems]="carouselItems"/>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1 @@
+export enum AdminSidenavItem { Companies = 'Companies', Users = 'Users' }

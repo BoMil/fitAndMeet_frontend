@@ -1,0 +1,24 @@
+.company-info-box-container {
+    padding: 5px;
+
+    .img-container {
+        height: 220px;
+
+        img {
+            height: 220px;
+            width: 100%;
+        }
+    }
+
+    .text-container {
+        .text-row {
+            border-bottom: 1px solid var(--border-input-primary-color);
+            padding: 15px 0px;
+
+            .label {
+                font-weight: 500;
+                color: var(--placeholder-primary-color);
+            }
+        }
+    }
+}

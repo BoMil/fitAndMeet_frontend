@@ -1,0 +1,15 @@
+.notifications-list-container {
+    padding-top: 5rem;
+    width: 300px;
+
+    .title {
+        font-weight: 600;
+        padding: 0 0 5px 1rem;
+        position: relative;
+
+        .read-all {
+            position: absolute;
+            right: 14px;
+        }
+    }
+}

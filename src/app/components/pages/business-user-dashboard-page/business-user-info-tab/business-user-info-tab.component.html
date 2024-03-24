@@ -1,0 +1,13 @@
+<div class="bu-info-tab-container">
+    <div class="bu-info-card">
+        <div class="image-box">
+            <div class="avatar-container">
+                <img *ngIf="buDashboardStateService.currentDashboardBusinessUser?.avatar" else logoImg [src]="buDashboardStateService.currentDashboardBusinessUser?.avatar" alt="Coach image">
+                <mat-icon class="account-icon grey" *ngIf="!buDashboardStateService.currentDashboardBusinessUser?.avatar" >account_circle</mat-icon>
+            </div>
+        </div>
+        <div class="content-box">
+            {{ buDashboardStateService.currentDashboardBusinessUser?.first_name }}
+        </div>
+    </div>
+</div>

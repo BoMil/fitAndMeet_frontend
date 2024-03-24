@@ -1,0 +1,28 @@
+.phone-container {
+  min-height: 96px;
+
+  ngx-intl-tel-input {
+    display: block;
+
+    ::ng-deep {
+      .iti {
+        &.iti--allow-dropdown {
+          width: 100%;
+        }
+      }
+
+      input {
+        border-radius: 8px 8px 8px 8px;
+        border: 1px solid var(--border-input-primary-color);
+        &.form-control {
+          height: 48px;
+          width: 100%;
+        }
+      }
+
+      .dropdown-toggle {
+        border-right: 1px solid var(--border-input-primary-color);
+      }
+    }
+  }
+}

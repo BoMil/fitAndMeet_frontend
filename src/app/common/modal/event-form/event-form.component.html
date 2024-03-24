@@ -1,0 +1,28 @@
+<div class="form-container" appClickOutside (clickOutside)="closeModal()">
+    <div class="date-box">
+        <div class="clock">
+            <mat-icon>access_time</mat-icon>
+        </div>
+        <div class="event-date">
+            {{ stateService.eventStartTime | date: 'EEEE, MMMM d, y h:mm a'}} - {{stateService.eventEndTime | date: 'EEEE, MMMM d, y h:mm a'}}
+        </div>
+    </div>
+
+    <form [formGroup]="eventForm">
+        <app-input-field
+            [canValidate]="isSubmitted"
+            [isMandatory]="true"
+            [inputText]="eventForm.controls.eventDescription"
+            [placeholderText]="'Add event description'"
+            [label]="'Event description'" />
+
+        <ng-container *ngIf="!isCreateEvent" >
+            <button class="button blue--big full-width" (click)="saveEventChanges()">Save</button>
+            <button class="button red--big full-width" (click)="deleteEvent()">Delete</button>
+        </ng-container>
+
+        <ng-container *ngIf="isCreateEvent">
+            <button class="button blue--big full-width" (click)="createEvent()">Create event</button>
+        </ng-container>
+    </form>
+</div>

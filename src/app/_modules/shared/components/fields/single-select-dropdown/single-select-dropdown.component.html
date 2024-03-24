@@ -1,0 +1,49 @@
+<div #dropdown class="single-select-dropdown-container"
+  [ngStyle]="{
+    width: dropdownWidth,
+    'min-width': dropdownMinWidth
+  }">
+  <app-input-label
+    [label]="label"
+    [isMandatory]="isMandatory"
+  ></app-input-label>
+
+  <div class="single-select-dropdown" (click)="toggleDropdown()"
+    [ngStyle]="{ height: dropdownHeight }"
+    [ngClass]="{
+      invalidField:
+        canValidate &&
+        (!selectedOption?.displayValue || selectedOption?.displayValue === ''),
+      disabled: disabled,
+      focused: isOpen
+    }"
+  >
+    <span class="selected-option">
+      <span *ngIf="!selectedOption" class="placeholder-text">{{ placeholderText }}</span>
+      {{ selectedOption ? selectedOption.displayValue : "" }}</span>
+    <i class="arrow-custom --small down"></i>
+
+    <div class="select-menu" *ngIf="isOpen && !disabled"
+        [ngStyle]="{
+            'min-width': dropdownMenuMinWidth,
+            'top': dropdownHeight,
+            'max-height': dropdownMenuMaxHeight ? dropdownMenuMaxHeight : '150px'
+        }">
+        <!-- <div class="menu-header">{{ placeholderText }}</div> -->
+        <div class="menu-option" *ngFor="let option of elements" (click)="selectOption(option)"
+        [ngClass]="{
+            selected: selectedOption?.displayValue === option.displayValue,
+            'option-border': isOptionBorderVisible
+        }">
+            {{ option.displayValue }}
+        </div>
+    </div>
+  </div>
+
+  <div
+    [class.hidden]="selectedOption?.displayValue || !canValidate"
+    class="form-control-error"
+  >
+    {{ errorMessage }}
+  </div>
+</div>

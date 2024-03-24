@@ -1,0 +1,20 @@
+<div class="admin-users-container">
+    <ng-container *ngIf="currentView === view.TableView">
+        <div class="buttons-container">
+            <button (click)="currentView = view.CreateUserView" class="button green">Create new user</button>
+        </div>
+
+        <app-users-table [setData]="allUsers" (userEdit)="editUser($event)" (userDelete)="deleteUser($event)" />
+    </ng-container>
+
+    <ng-container *ngIf="currentView === view.CreateUserView">
+        <app-user-details-form (cancelPressed)="currentView = view.TableView" (userCreatedOrUpdated)="onUserCreatedOrUpdated()"/>
+    </ng-container>
+
+    <ng-container *ngIf="currentView === view.EditUserView">
+        <app-user-details-form
+            [userToEdit]="userToEdit"
+            (cancelPressed)="currentView = view.TableView"
+            (userCreatedOrUpdated)="onUserCreatedOrUpdated()" />
+    </ng-container>
+</div>

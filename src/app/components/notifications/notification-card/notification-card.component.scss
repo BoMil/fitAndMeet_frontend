@@ -1,0 +1,45 @@
+.notification-card-container {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-input-primary-color);
+    // box-shadow: var(--menu-box-shadow);
+    padding-bottom: 0.5rem;
+    border-left: 4px solid var(--secondary-green);
+
+    &.is-read {
+        border-left: 4px solid transparent;
+    }
+
+    .title {
+        font-weight: 500;
+    }
+    .body {
+        font-size: 12px;
+    }
+
+    .link-text {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+    }
+
+    .dates-box {
+        display: grid;
+        grid-template-columns: min-content auto;
+        font-size: 11px;
+        color: var(--placeholder-primary-color);
+        margin-top: 4px;
+
+        .event-date {
+            align-self: center;
+        }
+
+        .clock {
+            height: 18px;
+        }
+    
+        mat-icon {
+            font-size: 18px;
+            color: var(--carousel-icon-color);
+        }
+    }
+}

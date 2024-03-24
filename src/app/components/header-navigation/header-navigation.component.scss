@@ -1,0 +1,58 @@
+.navigation-container {
+    // margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-input-color);
+    padding: 10px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    position: fixed;
+    z-index: 2;
+    background-color: white;
+    width: 100%;
+
+    .nav-option {
+        cursor: pointer;
+        letter-spacing: 0.1rem;
+        padding: 1rem;
+        background-color: var(--option-grey);
+        border-radius: 6px;
+        display: inline-block;
+        margin-left: 10px;
+
+        &:hover {
+            padding: 1rem;
+            background-color: var(--option-hover-grey);
+        }
+    }
+
+    .right-section {
+        margin-left: auto;
+        width: max-content;
+
+        .user-box {
+            cursor: pointer;
+            padding-top: 14px;
+
+            mat-icon {
+                margin-left: 18px;
+            }
+        }
+    }
+
+    .brand-title {
+        margin: auto;
+        font-weight: 700;
+        font-size: 24px;
+    }
+
+    .logo {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+        width: 32px;
+
+        mat-icon {
+            position: absolute;
+            bottom: -8px;
+        }
+    }
+}

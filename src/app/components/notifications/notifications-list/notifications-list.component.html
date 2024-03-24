@@ -1,0 +1,16 @@
+<div class="notifications-list-container">
+    <div class="title">
+        <span>Notifications</span> 
+        <span class="read-all">
+            <mat-slide-toggle
+                (change)="readAllChanged($event)"
+                [labelPosition]="'before'"
+                [color]="color"
+                [checked]="notificationsStateService.isReadAllChecked"
+                [disabled]="notificationsStateService.isReadAllDisabled">
+            Read all
+            </mat-slide-toggle>
+        </span></div>
+
+    <app-notification-card *ngFor="let item of notificationsStateService.userNotifications" [notification]="item" />
+</div>

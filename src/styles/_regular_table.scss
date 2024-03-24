@@ -1,0 +1,28 @@
+.regular-table {
+    table {
+        width: 100%;
+
+        .action-icon {
+            display: inline;
+            height: 22px;
+            cursor: pointer;
+
+            &:last-child {
+                margin-left: 10px;
+            }
+        }
+
+        .table-row {
+            &:hover {
+                background-color: var(--color-lighter-gray);
+                cursor: pointer;
+            }
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 1rem;
+            width: 100%;
+        }
+    }      
+}

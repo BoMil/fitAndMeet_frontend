@@ -1,0 +1,118 @@
+<div class="user-details-form">
+    <form [formGroup]="userForm">
+        <app-input-field 
+            [canValidate]="isSubmitted"
+            [isMandatory]="true"
+            [inputText]="userForm.controls.firstName"
+            [placeholderText]="'Your name'"
+            [label]="'First name'" />
+
+        <app-input-field 
+            [canValidate]="isSubmitted"
+            [isMandatory]="true"
+            [inputText]="userForm.controls.lastName"
+            [placeholderText]="'Your last name'"
+            [label]="'Last name'" />
+
+        <app-input-field 
+            [canValidate]="isSubmitted"
+            [isMandatory]="true"
+            [inputText]="userForm.controls.username"
+            [placeholderText]="'Your username'"
+            [label]="'Username'" />
+
+        <app-input-field 
+            [canValidate]="isSubmitted"
+            [isMandatory]="true"
+            [inputText]="userForm.controls.email"
+            [placeholderText]="'Your email'"
+            [label]="'Email'" />
+
+            <app-international-phone
+                [phoneNumber]="userForm.controls.phoneNumber"
+                [isMandatory]="true"
+                [canValidateEmptyField]="isSubmitted"
+                [canValidatePhoneNumber]="isSubmitted"
+                [label]="'Your phone'"
+            ></app-international-phone>
+
+        <app-search-field
+            [label]="'Address'"
+            [placeholder]="'Enter your address'"
+            [isMandatory]="true"
+            [canValidate]="isSubmitted"
+            [inputText]="userForm.controls.address"
+            (searchTextChanged)="getLocationsBySearchQuery($event)" >
+
+            <div menuOptions>
+                <div class="option-item" *ngFor="let location of possibleLocations" (click)="selectLocation(location)">
+                    <span>{{ location.description }}</span>
+                </div>
+            </div>
+        </app-search-field>
+
+        <div class="map-label">Also, you can choose address manually on the map</div>
+        <div class="map-container">
+            <google-map 
+                width="100%"
+                height="200px"
+                [center]="mapCenter"
+                [zoom]="mapService.zoom"
+                (mapClick)="addMarker($event)">
+                    <map-marker *ngFor="let position of markerPositions" [position]="position" [options]="markerOptions" />
+            </google-map>
+        </div>
+
+        <div [class.visible]="(!addressLat || !addressLong) && isSubmitted" class="form-control-error">
+            Address must be selected on the map
+        </div>
+
+        <div class="gender-box">
+            <app-single-select-dropdown
+                [preselectedOption]="selectedGender"
+                [elements]="genderOptions"
+                [label]="'Gender'"
+                [placeholderText]="'Select gender'"
+                [isMandatory]="true"
+                [canValidate]="isSubmitted"
+                [dropdownHeight]="'48px'"
+                [dropdownMenuMaxHeight]="'200px'"
+                (selectionChanged)="genderSelected($event)"
+            ></app-single-select-dropdown>
+
+            <app-datepicker-field
+                [label]="'Date of Birth'"
+                [placeholderText]="'dd/mm/yyyy'"
+                [canValidate]="isSubmitted"
+                [isMandatory]="true"
+                [date]="userForm.controls.dateOfBirth"
+            ></app-datepicker-field>
+        </div>
+
+        <app-single-select-dropdown
+            [preselectedOption]="selectedRole"
+            [elements]="roleOptions"
+            [label]="'Role'"
+            [placeholderText]="'Select role'"
+            [isMandatory]="true"
+            [canValidate]="isSubmitted"
+            [dropdownHeight]="'48px'"
+            [dropdownMenuMaxHeight]="'200px'"
+            (selectionChanged)="roleSelected($event)"
+        ></app-single-select-dropdown>
+
+        <app-input-field
+            *ngIf="!userToEdit"
+            [canValidate]="isSubmitted"
+            [isMandatory]="true"
+            [inputText]="userForm.controls.password"
+            [placeholderText]="'Your password'"
+            [errorMessage]="'Password must contain minimum 8 and maximum 20 characters, at least one uppercase and one lowercase letter, one number and one special character'"
+            [label]="'Password'" />
+
+        <div class="buttons-container align-right">
+            <button class="button blue" (click)="submitForm()">{{ userToEdit ? 'Update' : 'Create'}} user</button>
+            <button class="button remove" (click)="cancel()">Cancel</button>
+        </div>
+    </form>
+</div>

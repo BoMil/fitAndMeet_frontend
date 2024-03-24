@@ -1,0 +1,122 @@
+
+.fc { /* the calendar root */
+
+    ::ng-deep {
+        .fc-daygrid-body {
+            z-index: 1 !important;
+        }
+
+        .fc-v-event {
+            background-color: transparent !important;
+            border: none !important;
+        }
+
+        .pending {
+            background-color: var(--event-pending);
+            color: white;
+        }
+
+        .accepted {
+            background-color: var(--event-accepted);
+            color: white;
+        }
+
+        .declined {
+            background-color: var(--event-declined);
+            color: white;
+        }
+
+        .available {
+            background-color: var(--event-available);
+            color: white;
+        }
+
+        .cal-event {
+            overflow: hidden;
+
+            .cal-event-time {
+                padding: 0.2rem 0 0.2rem 0.2rem;
+                cursor: pointer;
+            }
+    
+            .cal-event-title {
+                padding: 0.2rem 0.2rem 0.2rem 0;
+
+                cursor: pointer;
+            }
+        }
+    }
+  }
+
+  .sidebar-calendar {
+    .fc {
+        max-width: 300px;
+        margin: 0 auto; 
+    }
+  }
+
+  .scheduler-container {
+    display: grid;
+    grid-template-columns: 70% 30%;
+
+    .calendar-container {
+        padding: 1rem 1rem 1rem;
+
+        .legend {
+            margin-top: 1rem;
+        }
+
+        &.not-allowed {
+            cursor: not-allowed;
+        }
+
+        .user-info {
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--menu-box-shadow) !important;
+
+            mat-icon {
+                font-size: 24px;
+                vertical-align: middle;
+            }
+        }
+    }
+
+    .events-container {
+        position: relative;
+        margin-left: 1rem;
+
+        h2 {
+            text-align: center;
+        }
+
+        .event-item {
+            margin-top: 10px;
+        }
+
+        .no-data-msg {
+            text-align: center;
+            color: var(--carousel-icon-color);
+            position: absolute;
+            top: 50%;
+            left: 30%;
+        }
+    }
+  }
+
+  @media only screen and (max-width: 920px) {
+    .scheduler-container {
+       grid-template-columns: auto;
+
+       .calendar-container {
+            grid-template-columns: auto;
+       }
+
+       .events-container {
+            margin-left: 0px;
+        }
+    }
+}

@@ -1,0 +1,69 @@
+.event-box-container {
+    padding: 1rem;
+    position: relative;
+    border-radius: 4px;
+    box-shadow: rgb(0 0 0 / 21%) 0px 5px 15px;
+
+    &.pending {
+        background-color: var(--rgba-event-pending-bg);
+    }
+
+    &.accepted {
+        background-color: var(--rgba-event-accepted-bg);
+    }
+
+    &.declined {
+        background-color: var(--rgba-event-declined-bg);
+    }
+
+    &.available {
+        background-color: var(--rgba-event-available-bg);
+    }
+
+
+    .title-box {
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .time-box {
+        margin-bottom: 8px;
+
+        .date {
+            font-weight: 500;
+
+            .label {
+                color: var(--placeholder-primary-color);
+            }
+
+            .value {
+                font-size: 12px;
+            }
+        }
+    }
+
+    .clock {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+
+        mat-icon {
+            &.pending {
+                color: var(--event-pending);
+            }
+    
+            &.accepted {
+                color: var(--event-accepted);
+            }
+    
+            &.declined {
+                color: var(--event-declined);
+            }
+    
+            &.available {
+                color: var(--event-available);
+            }
+        }
+    }
+}

@@ -1,0 +1,65 @@
+.text-field {
+    font-family: "Inter";
+  
+    .input-container {
+      position: relative;
+  
+      .arrow-custom {
+          cursor: pointer;
+  
+          &.up {
+              right: 18px;
+              position: absolute;
+              top: 13px;
+          }
+  
+          &.down {
+              right: 18px;
+              position: absolute;
+              bottom: 13px;
+          }
+      }
+  
+      input {
+          border: 1px solid var(--border-input-primary-color);
+          border-radius: 0.8rem;
+          padding: 1.1rem 1.3rem;
+          color: var(--primary-text-color);
+          width: 100%;
+          font-size: 14px;
+      
+          &::placeholder {
+            color: var(--placeholder-primary-color);
+            opacity: 1; /*Firefox*/
+          }
+      
+          &:-ms-input-placeholder {
+            /*Internet Explorer 10-11*/
+            color: var(--placeholder-primary-color);
+          }
+      
+          &::-ms-input-placeholder {
+            /*Microsoft Edge*/
+            color: var(--placeholder-primary-color);
+          }
+      }
+    }
+  
+    .form-control-error {
+      height: 37px;
+      &.hidden {
+        visibility: hidden;
+      }
+    }
+  
+    input[type="number"] {
+      -webkit-appearance: textfield;
+         -moz-appearance: textfield;
+              appearance: textfield;
+    }
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none;
+    }
+  }
+  

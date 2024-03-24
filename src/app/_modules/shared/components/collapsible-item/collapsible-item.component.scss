@@ -1,0 +1,46 @@
+.colapsible-item-container {
+    position: relative;
+
+    .collapsible {
+        background-color: white;
+        color: white;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        color: #777;
+        border-bottom: 1px solid var(--border-input-color);
+    }
+
+    .arrow {
+        position: absolute;
+        right: 15px;
+        top: 28px;
+        transition: all 0.3s ease-out;
+
+        &.open {
+            transform: rotateX(180deg);
+            top: 15px;
+        }
+    }
+}
+
+.active, .collapsible:hover {
+    background-color: #ccc;
+}
+
+.content {
+    padding: 0 18px;
+    height: 0px;
+    overflow: hidden;
+    transition: all 0.3s ease-out;
+    background-color: #f1f1f1;
+
+    &.open {
+        max-height: 100%;
+        height: 340px;
+    }
+}

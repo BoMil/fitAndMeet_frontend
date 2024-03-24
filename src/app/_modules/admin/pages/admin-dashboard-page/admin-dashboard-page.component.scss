@@ -1,0 +1,37 @@
+.admin-dashboard-conainer {
+    height: 100vh;
+    width: 100%;
+
+    .dashboard-sidenav {
+        width: 15%;
+
+        .user-info {
+            padding: 2rem 1rem;
+            font-weight: 700;
+        }
+
+        .sidenav-item {
+            padding: 1rem;
+            display: block;
+            cursor: pointer;
+            color: black;
+            text-decoration: none;
+        
+            &.selected {
+                background-color: var(--color-lighter-gray);
+            }
+        }
+
+        .logout {
+            position: absolute;
+            bottom: 0px;
+            padding: 1rem;
+            color: var(--red-mandatory);
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+    }
+
+    .dashboard-content {}
+}

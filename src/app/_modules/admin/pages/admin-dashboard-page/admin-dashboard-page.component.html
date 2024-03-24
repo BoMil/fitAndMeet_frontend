@@ -1,0 +1,11 @@
+<mat-drawer-container class="admin-dashboard-conainer">
+    <mat-drawer mode="side" opened class="dashboard-sidenav">
+        <div class="user-info">{{ adminAuthStateService.currentUser?.fullName }}</div>
+        <a (click)="selectNavitem(sideNavItem.Companies)" [class.selected]="selectedSidenavItem === sideNavItem.Companies" [routerLink]="['companies']" class="sidenav-item">{{sideNavItem.Companies}}</a>
+        <a (click)="selectNavitem(sideNavItem.Users)" [class.selected]="selectedSidenavItem === sideNavItem.Users" [routerLink]="['users']" class="sidenav-item">{{sideNavItem.Users}}</a>
+        <div (click)="logout()" class="logout">Logout</div>
+    </mat-drawer>
+    <mat-drawer-content class="dashboard-content">
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+</mat-drawer-container>

@@ -1,0 +1,42 @@
+<div class="scheduler-container">
+    <div class="calendar-container">
+        <!-- <div class="user-info">
+            <span>
+                <mat-icon class="account-icon grey" *ngIf="!buDashboardStateService.currentDashboardBusinessUser?.avatar" >account_circle</mat-icon>
+            </span>
+            {{ buDashboardStateService.currentDashboardBusinessUser?.fullName }} calendar
+        </div> -->
+
+        <full-calendar #calendar [options]="calendarOptions">
+            <ng-template #eventContent let-arg>
+                <div class="cal-event">
+                    <b class="cal-event-time" [ngClass]="{
+                        pending: arg.event.extendedProps?.status === 'pending',
+                        accepted: arg.event.extendedProps?.status === 'accepted',
+                        declined: arg.event.extendedProps?.status === 'declined'}">
+                        {{ arg.timeText }}
+                    </b>
+                    <i class="cal-event-title" [ngClass]="{
+                        pending: arg.event.extendedProps?.status === 'pending',
+                        accepted: arg.event.extendedProps?.status === 'accepted',
+                        declined: arg.event.extendedProps?.status === 'declined'}">
+                        {{ arg.event.title }}
+                    </i>
+                </div>
+            </ng-template>
+        </full-calendar>
+
+        <div class="legend">
+            <app-events-legend />
+        </div>
+    </div>
+
+    <div class="events-container">
+        <h2>Events for a selected day</h2>
+        <div class="event-item" *ngFor="let event of buDashboardStateService.selectedDayEvents">
+            <app-event-box [data]="event" />
+        </div>
+
+        <div *ngIf="!buDashboardStateService.selectedDayEvents.length" class="no-data-msg">No events for current date</div>
+    </div>
+</div>

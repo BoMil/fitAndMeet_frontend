@@ -1,0 +1,12 @@
+<div class="notification-details-container" appClickOutside (clickOutside)="closeModal()">
+    <div *ngIf="notificationsStateService.selectedNotification?.notificationType === notificationType.FOLLOW_REQUEST_PENDING">
+        <div><span class="info-label">User status:</span>  {{ user?.followingStatus }}</div>
+        <div><span class="info-label">User first name:</span> {{ user?.first_name }}</div>
+        <div><span class="info-label">User last name:</span> {{ user?.last_name }}</div>
+
+        <div *ngIf="user?.followingStatus === 'PENDING'" class="buttons-container">
+            <button class="button full-width blue" (click)="acceptFollowRequest()">Accept request</button>            
+            <button class="button full-width remove" (click)="declineFollowRequest()">Decline request</button>            
+        </div>
+    </div>
+</div>

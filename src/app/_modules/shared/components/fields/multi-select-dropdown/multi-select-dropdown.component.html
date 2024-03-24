@@ -1,0 +1,28 @@
+<div #multiselectDropdown class="multi-select-dropdown-container">
+    <app-input-label
+        [label]="label"
+        [isMandatory]="isMandatory"
+    ></app-input-label>
+
+    <div class="multi-select-dropdown" (click)="toggleDropdown()">
+
+        <span class="selected-option">
+            <span *ngIf="!selectedText" class="placeholder-text">
+                {{ placeholderText }}
+            </span>
+                {{ selectedText }}
+        </span>
+        <i class="arrow-custom --small down"></i>
+
+        <div class="select-menu" *ngIf="isOpen && !disabled">
+            <div (click)="$event.stopPropagation()" class="menu-option" *ngFor="let option of elements" (click)="selectOption(option)">
+                <input type="checkbox" [(ngModel)]="option.checked" />
+                {{ option.displayValue }}
+            </div>
+        </div>
+    </div>
+
+    <div [class.hidden]="selectedText || !canValidate" class="form-control-error" >
+        {{ errorMessage }}
+    </div>
+</div>

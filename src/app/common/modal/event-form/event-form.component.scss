@@ -1,0 +1,38 @@
+.form-container {
+    background-color: white;
+    padding: 4rem;
+    border-radius: 8px;
+    width: 35rem;
+    margin: auto;
+    margin-top: 10%;
+
+    .date-box {
+        display: grid;
+        grid-template-columns: min-content auto;
+        margin-bottom: 1rem;
+
+        .event-date {
+            align-self: center;
+            padding-left: 0.5rem;
+        }
+
+        mat-icon {
+            color: var(--carousel-icon-color);
+        }
+    }
+
+    .blue--big {
+        margin-bottom: 1rem;
+    }
+
+    .button-space {
+        margin-left: 8px;
+    }
+}
+
+@media only screen and (max-width: 585px) {
+    .form-container {
+        width: 95%;
+        padding: 1.5rem;
+    }
+}

@@ -1,0 +1,75 @@
+<div class="bu-dashboard-container">
+    <ng-container *ngIf="buDashboardStateService.mainState === 'LOADING'">
+        <div>Loading...</div>
+    </ng-container>
+
+    <ng-container *ngIf="buDashboardStateService.mainState === 'LOADED'">
+        <div *ngIf="!isMultiUserPage" class="user-info-card">
+            <span>
+                <mat-icon class="account-icon grey" *ngIf="!buDashboardStateService.currentDashboardBusinessUser?.avatar" >account_circle</mat-icon>
+            </span>
+            {{ buDashboardStateService.currentDashboardBusinessUser?.fullName }} calendar
+        </div>
+    
+        <div *ngIf="isMultiUserPage" class="navigation-wraper">
+            <div class="keen-slider keen-slider--vertical" #sliderRef>
+                <ng-container *ngFor="let user of buDashboardStateService.allDashboardBusinessUsers">
+                    <div class="keen-slider__slide slide-item" >
+                        <div class="user-info-card">
+                            <span>
+                                <mat-icon class="account-icon grey" *ngIf="!user?.avatar" >account_circle</mat-icon>
+                            </span>
+                            {{ user?.fullName }} calendar
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+    
+            <ng-container *ngIf="buDashboardStateService.allDashboardBusinessUsers.length > 1" >
+                <svg
+                    [ngClass]="'arrow arrow--left ' + (currentSlide === 0 ? 'arrow--disabled' : '')"
+                    (click)="slider?.prev()"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24">
+                    <path d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
+                </svg>
+
+                <svg *ngIf="slider"
+                    [ngClass]="'arrow arrow--right ' + (slider?.track?.details?.slides && slider.track.details.slides.length - 1 === currentSlide ? 'arrow--disabled' : '')"
+                    (click)="slider?.next()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
+                    <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
+                </svg>
+            </ng-container>
+        </div>
+    
+        <div *ngIf="isMultiUserPage" class="dots">
+            <button
+              (click)="slider?.moveToIdx(i)"
+              *ngFor="let slide of dotHelper; let i = index"
+              [class]="'dot ' + (i === currentSlide ? 'active' : '')"
+            ></button>
+        </div>
+    
+        <ng-container *ngIf="(isMultiUserPage && buDashboardStateService.allDashboardBusinessUsers.length) || (!isMultiUserPage && buDashboardStateService.currentDashboardBusinessUser); else noContentMsg" >
+            <app-regular-tabs [tabs]="tabs" (tabSelected)="tabSelected($event)"></app-regular-tabs>
+    
+            <ng-container [ngSwitch]="selectedTab.name">
+                <ng-container *ngSwitchCase="'Info'">
+                    <app-business-user-info-tab />
+                </ng-container>
+        
+                <ng-container *ngSwitchCase="'Scheduling'">
+                    <app-business-user-schedule-tab />
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    
+        <ng-template #noContentMsg>
+            <div class="no-content">{{isMultiUserPage && !buDashboardStateService.allDashboardBusinessUsers.length ? 'Currentlly you don\'t follow any coach' : 'There is no data for the user'}} </div>
+        </ng-template>
+    </ng-container>
+
+    <ng-container *ngIf="buDashboardStateService.mainState === 'ERROR'">
+        <div>Failed to load content</div>
+    </ng-container>
+</div>

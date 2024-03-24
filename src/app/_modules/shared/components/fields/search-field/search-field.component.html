@@ -1,0 +1,23 @@
+<div class="search-box" #searchRef>
+    <div class="text-field" >
+        <app-input-label [label]="label" [isMandatory]="isMandatory" />
+
+        <div class="input-container">
+            <input
+                name="inputText"
+                [ngClass]="{ invalidField: canValidate && inputText.invalid }"
+                [formControl]="inputText"
+                type="{{ type }}"
+                placeholder="{{ placeholder }}"
+            />
+        </div>
+
+        <div [class.hidden]="inputText.valid || !canValidate" class="form-control-error" >
+            {{ inputText.value?.length ? errorMessage : emptyFieldError }}
+        </div>
+    </div>
+
+    <div class="search-options" *ngIf="menuVisible" (click)="menuVisible = false">
+        <ng-content select="[menuOptions]"></ng-content>
+    </div>
+</div>

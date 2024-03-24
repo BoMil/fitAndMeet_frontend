@@ -1,0 +1,9 @@
+<div class="colapsible-item-container">
+    <button (click)="toggleSection()" type="button" [class.active]="isSectionOpened" class="collapsible">{{ sectionTitle }}</button>
+
+    <div class="content" [class.open]="isSectionOpened" >
+        <ng-content select="[sectionContent]"></ng-content>
+    </div>
+
+    <mat-icon (click)="toggleSection()" [class.open]="isSectionOpened" class="arrow">keyboard_arrow_down</mat-icon>
+</div>

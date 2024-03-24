@@ -1,0 +1,118 @@
+.single-select-dropdown-container, .multi-select-dropdown-container {
+    font-family: "Inter";
+
+    .arrow-custom {
+      margin: 18px 18px 18px 8px;
+    }
+
+    .select-menu {
+      box-shadow: var(--menu-box-shadow) !important;
+      position: absolute;
+      background-color: white;
+      border-radius: 4px;
+      z-index: 3;
+      overflow: auto;
+
+      .menu-option {
+        padding: 1.2rem 1rem;
+        cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: normal;
+        color: var(--primary-text-color);
+        cursor: pointer;
+
+        &.selected,
+        &:hover {
+          background-color: var(--mat-option-bg-color);
+        }
+  
+        &.option-border {
+          border-top: 1px solid var(--color-lighter-gray);
+        }
+      }
+
+      .menu-header {
+        padding: 1.2rem 1rem;
+        cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 1.6rem;
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+        background-color: white;
+      }
+    }
+
+    .single-select-dropdown, .multi-select-dropdown {
+      outline: 1px solid var(--color-lighter-gray);
+      // z-index: 2;
+      position: relative;
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 0px 1.3rem;
+      display: grid;
+      grid-template-columns: auto 24px;
+      color: var(--secondary-text-color);
+      background-color: white;
+  
+      &.disabled {
+        color: var(--color-lighter-gray);
+        cursor: unset;
+
+        .selected-option {
+          color: var(--color-lighter-gray);
+        }
+      }
+
+      &:hover {
+        outline: 2px solid var(--color-black);
+      }
+
+      &.focused {
+        outline: 2px solid var(--color-lighter-gray);
+        z-index: 3;
+      }
+
+      &.invalidField {
+        outline: 1px solid red;
+  
+        &:hover {
+          outline: 2px solid red;
+        }
+      }
+
+      .selected-option {
+        // font-size: 12px;
+        font-size: 14px;
+        color: var(--color-dark-gray);
+        line-height: 23px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        align-self: center;
+  
+        .placeholder-text {
+          color: var(--placeholder-primary-color);
+        }
+      }
+
+      mat-icon {
+        align-self: center;
+      }
+    }
+
+    .form-control-error {
+      height: 37px;
+      &.hidden {
+        visibility: hidden;
+      }
+    }
+}
+
+.multi-select-dropdown-container {
+    .select-menu {
+        width: 100%;
+    }
+}

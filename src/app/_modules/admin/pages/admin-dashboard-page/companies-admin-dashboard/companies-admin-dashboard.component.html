@@ -1,0 +1,20 @@
+<div class="admin-companies-container">
+    <ng-container *ngIf="currentView === view.TableView">
+        <div class="buttons-container">
+            <button (click)="currentView = view.CreateCompanyView" class="button green">Create new company</button>
+        </div>
+
+        <app-companies-table [setData]="allCompanies" (companyEdit)="editCompany($event)" (companyDelete)="deleteCompany($event)"/>
+    </ng-container>
+
+    <ng-container *ngIf="currentView === view.CreateCompanyView">
+        <app-company-details-form (cancelPressed)="currentView = view.TableView" (companyCreatedOrUpdated)="onCompanyCreatedOrUpdated()"/>
+    </ng-container>
+
+    <ng-container *ngIf="currentView === view.EditCompanyView">
+        <app-company-details-form
+            [companyToEdit]="companyToEdit"
+            (cancelPressed)="currentView = view.TableView"
+            (companyCreatedOrUpdated)="onCompanyCreatedOrUpdated()" />
+    </ng-container>
+</div>

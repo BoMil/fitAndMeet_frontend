@@ -1,0 +1,42 @@
+.home-page-container {
+    height: 100vh;
+
+    .main-container {
+        display: grid;
+        grid-template-columns: 70% 30%;
+        height: 80%;
+        padding: 5.2rem 0 0 0.8rem;
+
+        .user-info {
+            .items-container {
+                overflow: scroll;
+                max-height: 505px;
+            }
+        }
+    }
+    .info-title {
+        text-align: center;
+    }
+
+    .map-container-smallScreens {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    .home-page-container {
+
+        .main-container {
+            grid-template-columns: auto;
+            padding: 4.5rem 0 0;
+            .map-container-smallScreens {
+                display: block;
+                padding: 0.5rem 0.5rem 0;
+            }
+
+            .map-container {
+                display: none;
+            }
+        }
+    }
+}

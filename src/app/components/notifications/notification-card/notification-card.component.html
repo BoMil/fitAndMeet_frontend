@@ -1,0 +1,16 @@
+<div class="notification-card-container" [class.is-read]="notification.is_read">
+    <div class="title">{{ title }}</div>
+    <div class="body">{{ notification.content }}</div>
+
+    <div (click)="notificationsStateService.openNotificationDetails(notification)" class="link-text" *ngIf="notification.notificationType === notificationType.FOLLOW_REQUEST_PENDING">
+        See the details
+    </div>
+    <div class="dates-box">
+        <div class="clock">
+            <mat-icon>access_time</mat-icon>
+        </div>
+        <div class="event-date">
+            {{ notification.created_at| date: 'EEEE, MMMM d, y h:mm a'}}
+        </div>
+    </div>
+</div>

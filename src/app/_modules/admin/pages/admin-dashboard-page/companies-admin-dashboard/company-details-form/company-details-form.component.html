@@ -1,0 +1,58 @@
+<div class="company-details-form">
+    <form [formGroup]="companyForm">
+        <app-input-field 
+            [canValidate]="isSubmitted"
+            [isMandatory]="true"
+            [inputText]="companyForm.controls.companyName"
+            [placeholderText]="'Add company name'"
+            [label]="'Company name'" />
+
+        <app-textarea-field
+            [canValidate]="isSubmitted"
+            [isMandatory]="true"
+            [inputText]="companyForm.controls.description"
+            [placeholderText]="'Add description'"
+            [label]="'Company description'" />
+
+            <app-multi-select-dropdown
+                [preselectDropdown]="preselectedBusinessUsers"
+                [elements]="dropdownBusinessUsers"
+                [label]="'Select company coaches'"
+                [placeholderText]="'Select coach'"
+                (selectionChanged)="businessUsersSelectionChanged($event)"
+            />
+
+
+        <app-search-field
+            [label]="'Address'"
+            [placeholder]="'Enter company address'"
+            [isMandatory]="true"
+            [canValidate]="isSubmitted"
+            [inputText]="companyForm.controls.address"
+            (searchTextChanged)="getLocationsBySearchQuery($event)" >
+
+            <div menuOptions>
+                <div class="option-item" *ngFor="let location of possibleLocations" (click)="selectLocation(location)">
+                    <span>{{ location.description }}</span>
+                </div>
+            </div>
+        </app-search-field>
+
+        <div class="map-label">Also, you can choose address manually on the map</div>
+        <div class="map-container">
+            <google-map 
+                width="100%"
+                height="300px"
+                [center]="mapCenter"
+                [zoom]="mapService.zoom"
+                (mapClick)="addMarker($event)">
+                    <map-marker *ngFor="let position of markerPositions" [position]="position" [options]="markerOptions" />
+            </google-map>
+        </div>
+        <div class="buttons-container align-right">
+            <button class="button blue" (click)="submitForm()">{{ companyToEdit ? 'Update' : 'Create'}} company</button>
+            <button class="button remove" (click)="cancel()">Cancel</button>
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,17 @@
+.notification-details-container {
+    background-color: white;
+    padding: 4rem;
+    border-radius: 8px;
+    width: 35rem;
+    margin: auto;
+    margin-top: 10%;
+
+    .info-label {
+        font-weight: 500;
+        color: var(--placeholder-primary-color);
+    }
+    
+    .buttons-container {
+        margin-top: 2rem;
+    }
+}

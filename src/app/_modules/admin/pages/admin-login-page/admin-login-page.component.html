@@ -1,0 +1,22 @@
+<div class="admin-login-container">
+    <form [formGroup]="loginForm" class="form-box">
+        <app-input-field 
+            [canValidate]="isSubmitted"
+            [isMandatory]="true"
+            [inputText]="loginForm.controls.username"
+            [placeholderText]="'Your username'"
+            [label]="'Username'" />
+
+        <app-input-field 
+            [canValidate]="isSubmitted"
+            [isMandatory]="true"
+            [inputText]="loginForm.controls.password"
+            [errorMessage]="'Password must contain minimum 8 and maximum 20 characters, at least one uppercase and one lowercase letter, one number and one special character'"
+            [placeholderText]="'Your password'"
+            [label]="'Password'" />
+
+            <div class="buttons-container align-right">
+                <button class="button blue--big full-width" (click)="loginPressed()">Login</button>
+            </div>
+    </form>
+</div>
