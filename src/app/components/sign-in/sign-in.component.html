@@ -3,7 +3,7 @@
         <mat-icon>close</mat-icon>
     </div>
     <div class="info-container" [@loginRegister]=" isLoginForm ? 'moveInfoLeft' : 'moveInfoRight'" >
-        <div class="logo-box">
+        <div class="logo-box" (click)="hiddenButtonPressed()">
             <mat-icon>fitbit</mat-icon>
         </div>
 

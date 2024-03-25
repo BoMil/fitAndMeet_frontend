@@ -12,7 +12,7 @@ export class CollapsibleItemComponent {
     @Input() sectionData: any;
     @Input() sectionTitle!: string;
     @Input() set setSectionState(item: CollapseItem | null) {
-        console.log('setSectionState', item);
+        // console.log('setSectionState', item);
         if (!this.closeWhenAnotherSectionOpened || !item) {
             return;
         }

@@ -98,8 +98,11 @@ export class SignInComponent implements OnInit {
     addressLat!: number | null;
     addressLong!: number | null;
     mapCenter!: google.maps.LatLngLiteral;
-  
-    
+
+    // Used for seting new user role to super_admin
+    hiddenBtnPressed: number = 1;
+    hiddenButtonTimeout: any;
+
 	constructor(
 		public modalService: ModalService,
 		private authApiService: AuthApiService,
@@ -180,6 +183,10 @@ export class SignInComponent implements OnInit {
             lat: this.addressLat,
             long: this.addressLong,
             password: this.registerForm.controls.password.value ?? '',
+        }
+
+        if (this.hiddenBtnPressed === 10) {
+            request.role = RoleEnum.SUPER_USER;
         }
 
         this.userApiService.registerUser(request).subscribe({
@@ -299,5 +306,21 @@ export class SignInComponent implements OnInit {
         this.possibleLocations = [];
         this.registerForm.controls.address.setValue('');
         this.clearMap();
+    }
+
+    hiddenButtonPressed() {
+        if (this.hiddenBtnPressed === 10) {
+            console.log('hiddenButtonPressed', this.hiddenBtnPressed);
+
+            if (this.hiddenButtonTimeout) {
+                clearTimeout(this.hiddenButtonTimeout);
+            }
+            this.hiddenButtonTimeout = setTimeout(() => {
+                this.hiddenBtnPressed = 1;
+                this.hiddenButtonTimeout = null;
+            }, 60000);
+            return;
+        }
+        this.hiddenBtnPressed++;
     }
 }
