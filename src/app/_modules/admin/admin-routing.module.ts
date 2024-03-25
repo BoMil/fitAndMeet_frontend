@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminLandingPageComponent } from './pages/admin-landing-page/admin-landing-page.component';
-import { adminDashboarGuard } from './_guards/admin-dashboar.guard';
+import { adminDashboarGuard } from './_guards/admin-dashboard.guard';
 import { AdminLoginPageComponent } from './pages/admin-login-page/admin-login-page.component';
 import { AdminDashboardPageComponent } from './pages/admin-dashboard-page/admin-dashboard-page.component';
 import { adminGuard } from './_guards/admin.guard';
@@ -9,9 +9,10 @@ import { UsersAdminDashboardComponent } from './pages/admin-dashboard-page/users
 import { CompaniesAdminDashboardComponent } from './pages/admin-dashboard-page/companies-admin-dashboard/companies-admin-dashboard.component';
 
 const routes: Routes = [
+    // Redirect to login page by default
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
     {
 		path: '',
-        canActivate: [adminGuard],
 		component: AdminLandingPageComponent,
 	},
     {
@@ -42,6 +43,8 @@ const routes: Routes = [
             },
         ]
 	},
+
+
 ];
 
 @NgModule({

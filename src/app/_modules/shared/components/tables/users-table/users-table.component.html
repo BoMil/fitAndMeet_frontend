@@ -56,7 +56,7 @@
         <!-- Actions Column -->
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Actions</th>
-            <td mat-cell *matCellDef="let user">
+            <td class="actions-cell" mat-cell *matCellDef="let user">
                 <img (click)="userEdit.emit(user)" class="action-icon" src="../../../../../../assets/svg/edit_icon.svg" alt="Edit">
                 <img (click)="userDelete.emit(user)" class="action-icon" src="../../../../../../assets/svg/trash_icon.svg" alt="Remove">
             </td>
