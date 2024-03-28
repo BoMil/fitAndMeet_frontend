@@ -7,4 +7,5 @@ export interface CreateCompanyRequest {
     location?: CoordinatesModel;
     address?: string;
     description?: string;
+    imageUrl?: string;
 }

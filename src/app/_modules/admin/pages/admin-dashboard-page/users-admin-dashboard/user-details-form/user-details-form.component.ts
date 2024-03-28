@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { GenderEnum } from 'src/app/_enums/gender';
@@ -9,6 +9,8 @@ import { User } from 'src/app/_models/user';
 import { UserApiService } from 'src/app/_services/api-services/user-api.service';
 import { GeocodingService } from 'src/app/_services/geocoding.service';
 import { MapService } from 'src/app/_services/map.service';
+import { AzureBlobService } from '../../../../../../_services/blob-storage.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-user-details-form',
@@ -22,7 +24,7 @@ import { MapService } from 'src/app/_services/map.service';
     }
   `]
 })
-export class UserDetailsFormComponent implements OnInit {
+export class UserDetailsFormComponent implements OnInit, OnDestroy {
     @Input() userToEdit: User | null = null;
     @Output() cancelPressed: EventEmitter<any> = new EventEmitter();
     @Output() userCreatedOrUpdated: EventEmitter<any> = new EventEmitter();
@@ -67,17 +69,29 @@ export class UserDetailsFormComponent implements OnInit {
         { displayValue:'Super user', value: RoleEnum.SUPER_USER },
     ];
 
+    avatarImageFile: File | null = null;
+    avatarImageUrl: any = '';
+    imageUploaded: Subject<any> = new Subject();
+	ngUnsubscribe = new Subject();
+    fileName: string = '';
+
     constructor(
         public mapService: MapService,
         private geocodingService: GeocodingService,
         private toastr: ToastrService,
         private userApiService: UserApiService,
-        // private companyApiService: CompanyApiService,
+        private blobStorageService: AzureBlobService,
     ) {}
 
     ngOnInit(): void {
         this.mapCenter = this.mapService.center;
         this.preselectForm();
+        this.listenWhenImageIsUploadedToAzure();
+    }
+
+    ngOnDestroy(): void {
+        this.ngUnsubscribe.next(null);
+		this.ngUnsubscribe.complete();
     }
 
     getLocationsBySearchQuery(search: string) {
@@ -199,34 +213,12 @@ export class UserDetailsFormComponent implements OnInit {
             return;
         }
 
-        let request: CreateOrUpadateUserRequest = {
-            first_name: this.userForm.controls.firstName.value ?? '',
-            last_name: this.userForm.controls.lastName.value ?? '',
-            user_name: this.userForm.controls.username.value ?? '',
-            email: this.userForm.controls.email.value ?? '',
-            gender: this.selectedGender.value ? this.selectedGender.value?.toString() : '',
-            avatar: '',
-            date_of_birth: this.userForm.controls.dateOfBirth.value ? this.userForm.controls.dateOfBirth.value.toISOString() : '',
-            phone_number: this.userForm.controls.phoneNumber?.value?.e164Number ?? '',
-            address: this.userForm.controls.address.value ?? '',
-            lat: this.addressLat,
-            long: this.addressLong,
-            role: this.selectedRole.value ? this.selectedRole.value?.toString() : '',
-            // password: this.userForm.controls.password.value ?? '',
+        if (this.avatarImageFile) {
+            this.uploadImageToAzure();
+            return;
         }
 
-
-        this.userApiService.updateUser(request, this.userToEdit.id).subscribe({
-			next: (data: any) => {
-                this.userCreatedOrUpdated.emit();
-        console.log('userCreatedOrUpdated form');
-                this.toastr.success('User updated successfully');
-                this.isSubmitted = false;
-			},
-			error: (err: any) => {
-                this.toastr.error('User updated failed');
-            },
-		});
+        this.updateUserLogic();
     }
 
     createNewUser() {
@@ -234,34 +226,12 @@ export class UserDetailsFormComponent implements OnInit {
 			return;
 		}
 
-        let request: CreateOrUpadateUserRequest = {
-            first_name: this.userForm.controls.firstName.value ?? '',
-            last_name: this.userForm.controls.lastName.value ?? '',
-            user_name: this.userForm.controls.username.value ?? '',
-            email: this.userForm.controls.email.value ?? '',
-            gender: this.selectedGender.value ? this.selectedGender.value?.toString() : '',
-            avatar: '',
-            date_of_birth: this.userForm.controls.dateOfBirth.value ? this.userForm.controls.dateOfBirth.value.toISOString() : '',
-            phone_number: this.userForm.controls.phoneNumber?.value?.e164Number ?? '',
-            address: this.userForm.controls.address.value ?? '',
-            lat: this.addressLat,
-            long: this.addressLong,
-            password: this.userForm.controls.password.value ?? '',
-            role: this.selectedRole.value ? this.selectedRole.value?.toString() : '',
+        if (this.avatarImageFile) {
+            this.uploadImageToAzure();
+            return;
         }
 
-        this.userApiService.registerUser(request).subscribe({
-			next: (data: any) => {
-                this.userCreatedOrUpdated.emit();
-        console.log('userCreatedOrUpdated form');
-
-                this.toastr.success('Registration successful');
-                this.isSubmitted = false;
-			},
-			error: (err: any) => {
-                this.toastr.error('Registration failed');
-            },
-		});
+        this.createUserLogic();
     }
 
     preselectForm() {
@@ -293,7 +263,112 @@ export class UserDetailsFormComponent implements OnInit {
             this.addressLong = Number(this.userToEdit.long);
             this.moveMapToAddressLocation();
         }
+        this.avatarImageUrl = this.userToEdit.avatar;
     }
 
-    // getRoleDisplayValue
+    createUserLogic() {
+        if (this.userForm.status !== 'VALID' || !this.selectedGender || !this.selectedRole || !this.addressLong || !this.addressLat) {
+			return;
+		}
+        let request: CreateOrUpadateUserRequest = {
+            first_name: this.userForm.controls.firstName.value ?? '',
+            last_name: this.userForm.controls.lastName.value ?? '',
+            user_name: this.userForm.controls.username.value ?? '',
+            email: this.userForm.controls.email.value ?? '',
+            gender: this.selectedGender.value ? this.selectedGender.value?.toString() : '',
+            avatar: this.avatarImageUrl,
+            date_of_birth: this.userForm.controls.dateOfBirth.value ? this.userForm.controls.dateOfBirth.value.toISOString() : '',
+            phone_number: this.userForm.controls.phoneNumber?.value?.e164Number ?? '',
+            address: this.userForm.controls.address.value ?? '',
+            lat: this.addressLat,
+            long: this.addressLong,
+            password: this.userForm.controls.password.value ?? '',
+            role: this.selectedRole.value ? this.selectedRole.value?.toString() : '',
+        }
+
+        this.userApiService.registerUser(request).subscribe({
+			next: (data: any) => {
+                this.userCreatedOrUpdated.emit();
+                console.log('userCreatedOrUpdated form');
+
+                this.toastr.success('Registration successful');
+                this.isSubmitted = false;
+			},
+			error: (err: any) => {
+                this.toastr.error('Registration failed');
+            },
+		});
+    }
+
+    updateUserLogic() {
+        if (this.userForm.status !== 'VALID' || !this.selectedGender || !this.selectedRole || !this.addressLong || !this.addressLat || !this.userToEdit) {
+            return;
+        }
+
+        let request: CreateOrUpadateUserRequest = {
+            first_name: this.userForm.controls.firstName.value ?? '',
+            last_name: this.userForm.controls.lastName.value ?? '',
+            user_name: this.userForm.controls.username.value ?? '',
+            email: this.userForm.controls.email.value ?? '',
+            gender: this.selectedGender.value ? this.selectedGender.value?.toString() : '',
+            avatar: this.avatarImageUrl,
+            date_of_birth: this.userForm.controls.dateOfBirth.value ? this.userForm.controls.dateOfBirth.value.toISOString() : '',
+            phone_number: this.userForm.controls.phoneNumber?.value?.e164Number ?? '',
+            address: this.userForm.controls.address.value ?? '',
+            lat: this.addressLat,
+            long: this.addressLong,
+            role: this.selectedRole.value ? this.selectedRole.value?.toString() : '',
+            // password: this.userForm.controls.password.value ?? '',
+        }
+
+        this.userApiService.updateUser(request, this.userToEdit.id).subscribe({
+			next: (data: any) => {
+                this.userCreatedOrUpdated.emit();
+        console.log('userCreatedOrUpdated form');
+                this.toastr.success('User updated successfully');
+                this.isSubmitted = false;
+			},
+			error: (err: any) => {
+                this.toastr.error('User updated failed');
+            },
+		});
+    }
+
+    imageUploadedToBrowser(data: any) {
+        this.avatarImageFile = data;
+        const reader = new FileReader();
+
+        // Display img on the page
+        reader.readAsDataURL(data); 
+        reader.onload = (_event) => { 
+            this.avatarImageUrl = reader.result ?? '';
+        }
+    }
+
+    uploadImageToAzure() {
+        if (!this.avatarImageFile) {
+            return;
+        }
+
+        this.blobStorageService.uploadFile(this.avatarImageFile, this.avatarImageFile.name, 'images', (response) => {
+            this.avatarImageUrl = response;
+            this.imageUploaded.next(true);
+        });
+    }
+
+    listenWhenImageIsUploadedToAzure() {
+        this.imageUploaded.pipe(takeUntil(this.ngUnsubscribe)).subscribe({
+            next: (data) => {
+                if (!this.userToEdit) {
+                    this.createUserLogic();
+                } else {
+                    this.updateUserLogic();
+                }
+            }
+        });
+    }
+
+    updateFileName(name: any) {
+        this.fileName = name;
+    }
 }

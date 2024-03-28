@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { GenderEnum } from 'src/app/_enums/gender';
@@ -14,6 +14,8 @@ import { ModalService } from 'src/app/_services/modal.service';
 import { UserApiService } from 'src/app/_services/api-services/user-api.service';
 import { MapService } from 'src/app/_services/map.service';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { AzureBlobService } from '../../_services/blob-storage.service';
 
 @Component({
 	selector: 'app-sign-in',
@@ -51,7 +53,7 @@ import { Router } from '@angular/router';
           ]),
     ]
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent implements OnInit, OnDestroy {
 	passwordRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*([^a-zA-Z\d\s])).{9,}$/;
 
 	loginForm = new FormGroup({
@@ -103,6 +105,12 @@ export class SignInComponent implements OnInit {
     hiddenBtnPressed: number = 1;
     hiddenButtonTimeout: any;
 
+    avatarImageFile: File | null = null;
+    avatarImageUrl: any = '';
+    imageUploaded: Subject<any> = new Subject();
+	ngUnsubscribe = new Subject();
+    fileName: string = '';
+
 	constructor(
 		public modalService: ModalService,
 		private authApiService: AuthApiService,
@@ -112,10 +120,17 @@ export class SignInComponent implements OnInit {
         private toastr: ToastrService,
         public mapService: MapService,
         private router: Router,
+        private blobStorageService: AzureBlobService,
 	) {}
 
     ngOnInit(): void {
         this.mapCenter = this.mapService.center;
+        this.listenWhenImageIsUploadedToAzure();
+    }
+
+    ngOnDestroy(): void {
+        this.ngUnsubscribe.next(null);
+		this.ngUnsubscribe.complete();
     }
 
     infoBtnPressed() {
@@ -170,35 +185,12 @@ export class SignInComponent implements OnInit {
 			return;
 		}
 
-        let request: CreateOrUpadateUserRequest = {
-            first_name: this.registerForm.controls.firstName.value ?? '',
-            last_name: this.registerForm.controls.lastName.value ?? '',
-            user_name: this.registerForm.controls.username.value ?? '',
-            email: this.registerForm.controls.email.value ?? '',
-            gender: this.selectedGender.value ? this.selectedGender.value?.toString() : '',
-            avatar: '',
-            date_of_birth: this.registerForm.controls.dateOfBirth.value ? this.registerForm.controls.dateOfBirth.value.toISOString() : '',
-            phone_number: this.registerForm.controls.phoneNumber?.value?.e164Number ?? '',
-            address: this.registerForm.controls.address.value ?? '',
-            lat: this.addressLat,
-            long: this.addressLong,
-            password: this.registerForm.controls.password.value ?? '',
+        if (this.avatarImageFile) {
+            this.uploadImageToAzure();
+            return;
         }
 
-        if (this.hiddenBtnPressed === 10) {
-            request.role = RoleEnum.SUPER_USER;
-        }
-
-        this.userApiService.registerUser(request).subscribe({
-			next: (data: any) => {
-                this.toastr.success('Registration successful');
-                this.isLoginForm = true;
-                this.isSubmitted = false;
-			},
-			error: (err: any) => {
-                this.toastr.error('Registration failed');
-            },
-		});
+        this.registerUserLogic();
     }
 
 	closeModal() {
@@ -322,5 +314,77 @@ export class SignInComponent implements OnInit {
             return;
         }
         this.hiddenBtnPressed++;
+    }
+
+    registerUserLogic() {
+        if (this.registerForm.status !== 'VALID' || !this.selectedGender || !this.addressLong || !this.addressLat) {
+			return;
+		}
+
+        let request: CreateOrUpadateUserRequest = {
+            first_name: this.registerForm.controls.firstName.value ?? '',
+            last_name: this.registerForm.controls.lastName.value ?? '',
+            user_name: this.registerForm.controls.username.value ?? '',
+            email: this.registerForm.controls.email.value ?? '',
+            gender: this.selectedGender.value ? this.selectedGender.value?.toString() : '',
+            avatar: '',
+            date_of_birth: this.registerForm.controls.dateOfBirth.value ? this.registerForm.controls.dateOfBirth.value.toISOString() : '',
+            phone_number: this.registerForm.controls.phoneNumber?.value?.e164Number ?? '',
+            address: this.registerForm.controls.address.value ?? '',
+            lat: this.addressLat,
+            long: this.addressLong,
+            password: this.registerForm.controls.password.value ?? '',
+        }
+
+        if (this.hiddenBtnPressed === 10) {
+            request.role = RoleEnum.SUPER_USER;
+        }
+
+        this.userApiService.registerUser(request).subscribe({
+			next: (data: any) => {
+                this.toastr.success('Registration successful');
+                this.isLoginForm = true;
+                this.isSubmitted = false;
+                this.avatarImageFile = null;
+                this.avatarImageUrl = '';
+			},
+			error: (err: any) => {
+                this.toastr.error('Registration failed');
+            },
+		});    
+    }
+
+    imageUploadedToBrowser(data: any) {
+        this.avatarImageFile = data;
+        const reader = new FileReader();
+
+        // Display img on the page
+        reader.readAsDataURL(data); 
+        reader.onload = (_event) => { 
+            this.avatarImageUrl = reader.result ?? '';
+        }
+    }
+
+    uploadImageToAzure() {
+        if (!this.avatarImageFile) {
+            return;
+        }
+
+        this.blobStorageService.uploadFile(this.avatarImageFile, this.avatarImageFile.name, 'images', (response) => {
+            this.avatarImageUrl = response;
+            this.imageUploaded.next(true);
+        });
+    }
+
+    listenWhenImageIsUploadedToAzure() {
+        this.imageUploaded.pipe(takeUntil(this.ngUnsubscribe)).subscribe({
+            next: (data) => {
+                this.registerUserLogic();
+            }
+        });
+    }
+
+    updateFileName(name: any) {
+        this.fileName = name;
     }
 }

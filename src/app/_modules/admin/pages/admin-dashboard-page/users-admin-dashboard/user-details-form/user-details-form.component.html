@@ -1,5 +1,17 @@
 <div class="user-details-form">
+    <app-image-container [label]="'User image'" [imgSrc]="avatarImageUrl"/>
+
     <form [formGroup]="userForm">
+        <app-upload-bar 
+            style="width: 100%;"
+            (dataForServerUpload)="imageUploadedToBrowser($event)"
+            [fileText]="fileName"
+            (fileTextChange)="updateFileName($event)"
+            [canValidate]="isSubmitted"
+            [leftLabel]="'Upload User image'"
+            [rightLabel]="'PNG or JPEG File. Max. file size: 1000kb'">
+        </app-upload-bar>
+
         <app-input-field 
             [canValidate]="isSubmitted"
             [isMandatory]="true"

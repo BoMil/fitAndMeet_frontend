@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, takeUntil } from 'rxjs';
 import { CreateCompanyRequest } from 'src/app/_interfaces/create-company-request';
 import { IOption } from 'src/app/_interfaces/option';
 import { Company } from 'src/app/_models/company';
@@ -10,13 +11,14 @@ import { CompanyApiService } from 'src/app/_services/api-services/company-api.se
 import { UserApiService } from 'src/app/_services/api-services/user-api.service';
 import { GeocodingService } from 'src/app/_services/geocoding.service';
 import { MapService } from 'src/app/_services/map.service';
+import { AzureBlobService } from '../../../../../../_services/blob-storage.service';
 
 @Component({
   selector: 'app-company-details-form',
   templateUrl: './company-details-form.component.html',
   styleUrls: ['./company-details-form.component.scss']
 })
-export class CompanyDetailsFormComponent implements OnInit {
+export class CompanyDetailsFormComponent implements OnInit, OnDestroy {
     @Input() companyToEdit: Company | null = null;
     @Output() cancelPressed: EventEmitter<any> = new EventEmitter();
     @Output() companyCreatedOrUpdated: EventEmitter<any> = new EventEmitter();
@@ -43,18 +45,31 @@ export class CompanyDetailsFormComponent implements OnInit {
 		address: new FormControl<string>('', [ Validators.required ]),
 	});
 
+    companyImageFile: File | null = null;
+    companyImageUrl: any = '';
+    imageUploaded: Subject<any> = new Subject();
+	ngUnsubscribe = new Subject();
+    fileName: string = '';
+
     constructor(
         public mapService: MapService,
         private geocodingService: GeocodingService,
         private toastr: ToastrService,
         private userApiService: UserApiService,
         private companyApiService: CompanyApiService,
+        private blobStorageService: AzureBlobService,
     ) {}
 
     ngOnInit(): void {
         this.mapCenter = this.mapService.center;
         this.preselectForm();
         this.getAllBusinessUsers();
+        this.listenWhenImageIsUploadedToAzure();
+    }
+
+    ngOnDestroy(): void {
+        this.ngUnsubscribe.next(null);
+		this.ngUnsubscribe.complete();
     }
 
     getLocationsBySearchQuery(search: string) {
@@ -196,30 +211,12 @@ export class CompanyDetailsFormComponent implements OnInit {
             return;
         }
 
-        const request: CreateCompanyRequest = {
-            list_of_business_users_id: this.selectedBusinessUsersIds,
-            name: this.companyForm.controls.companyName.value ?? '',
-            address: this.companyForm.controls.address.value ?? '',
-            location: new CoordinatesModel({
-                lat: this.addressLat,
-                long: this.addressLong,
-            }),
-            description: this.companyForm.controls.description.value ?? '',
-            logo: ''
+        if (this.companyImageFile) {
+            this.uploadImageToAzure();
+            return;
         }
-        // console.log('request', request);
 
-        this.companyApiService.createCompany(request).subscribe({
-            next: (data) => {
-                this.companyCreatedOrUpdated.emit();
-                this.toastr.success('Company created');
-                console.log('createCompany', data);
-            },
-            error: (err) => {
-                this.toastr.error('Failed to create company');
-                console.error('createCompany', err);
-            }
-        });
+        this.createCompanyLogic();
     }
 
     cancel() {
@@ -241,30 +238,12 @@ export class CompanyDetailsFormComponent implements OnInit {
             return;
         }
 
-        const request: CreateCompanyRequest = {
-            list_of_business_users_id: this.selectedBusinessUsersIds,
-            name: this.companyForm.controls.companyName.value ?? '',
-            address: this.companyForm.controls.address.value ?? '',
-            location: new CoordinatesModel({
-                lat: this.addressLat,
-                long: this.addressLong,
-            }),
-            description: this.companyForm.controls.description.value ?? '',
-            logo: ''
+        if (this.companyImageFile) {
+            this.uploadImageToAzure();
+            return;
         }
-        // console.log('request', request);
 
-        this.companyApiService.updateCompany(request, this.companyToEdit.id).subscribe({
-            next: (data) => {
-                this.companyCreatedOrUpdated.emit();
-                this.toastr.success('Company updated');
-                console.log('updateCompany', data);
-            },
-            error: (err) => {
-                this.toastr.error('Failed to update company');
-                console.error('updateCompany', err);
-            }
-        });
+        this.updateCompanyLogic();
     }
 
     preselectForm() {
@@ -285,6 +264,108 @@ export class CompanyDetailsFormComponent implements OnInit {
 
         // Set company business users
         this.selectedBusinessUsersIds = this.companyToEdit.list_of_business_users_id;
+        this.companyImageUrl = this.companyToEdit.imageUrl;
     }
 
+    createCompanyLogic() {
+        if (this.companyForm.status !== 'VALID' || !this.addressLong || !this.addressLat) {
+            return;
+        }
+
+        const request: CreateCompanyRequest = {
+            list_of_business_users_id: this.selectedBusinessUsersIds,
+            name: this.companyForm.controls.companyName.value ?? '',
+            address: this.companyForm.controls.address.value ?? '',
+            location: new CoordinatesModel({
+                lat: this.addressLat,
+                long: this.addressLong,
+            }),
+            description: this.companyForm.controls.description.value ?? '',
+            logo: '',
+            imageUrl: this.companyImageUrl
+        }
+        // console.log('request', request);
+
+        this.companyApiService.createCompany(request).subscribe({
+            next: (data) => {
+                this.companyCreatedOrUpdated.emit();
+                this.toastr.success('Company created');
+                console.log('createCompany', data);
+            },
+            error: (err) => {
+                this.toastr.error('Failed to create company');
+                console.error('createCompany', err);
+            }
+        });
+    }
+
+    updateCompanyLogic() {
+        if (this.companyForm.status !== 'VALID' || !this.addressLong || !this.addressLat || !this.companyToEdit) {
+            return;
+        }
+
+        const request: CreateCompanyRequest = {
+            list_of_business_users_id: this.selectedBusinessUsersIds,
+            name: this.companyForm.controls.companyName.value ?? '',
+            address: this.companyForm.controls.address.value ?? '',
+            location: new CoordinatesModel({
+                lat: this.addressLat,
+                long: this.addressLong,
+            }),
+            description: this.companyForm.controls.description.value ?? '',
+            logo: '',
+            imageUrl: this.companyImageUrl
+        }
+        // console.log('request', request);
+
+        this.companyApiService.updateCompany(request, this.companyToEdit.id).subscribe({
+            next: (data) => {
+                this.companyCreatedOrUpdated.emit();
+                this.toastr.success('Company updated');
+                // console.log('updateCompany', data);
+            },
+            error: (err) => {
+                this.toastr.error('Failed to update company');
+                console.error('updateCompany', err);
+            }
+        });
+    }
+
+    imageUploadedToBrowser(data: any) {
+        this.companyImageFile = data;
+        const reader = new FileReader();
+
+        // Display img on the page
+        reader.readAsDataURL(data); 
+        reader.onload = (_event) => { 
+            this.companyImageUrl = reader.result ?? '';
+        }
+    }
+
+    uploadImageToAzure() {
+        if (!this.companyImageFile) {
+            return;
+        }
+
+        this.blobStorageService.uploadFile(this.companyImageFile, this.companyImageFile.name, 'images', (response) => {
+            this.companyImageUrl = response;
+            this.imageUploaded.next(true);
+        });
+    }
+
+    listenWhenImageIsUploadedToAzure() {
+        this.imageUploaded.pipe(takeUntil(this.ngUnsubscribe)).subscribe({
+            next: (data) => {
+                if (!this.companyToEdit) {
+                    this.createCompanyLogic();
+                } else {
+                    this.updateCompanyLogic();
+                }
+            }
+        });
+    }
+
+    updateFileName(name: any) {
+        this.fileName = name;
+    }
 }

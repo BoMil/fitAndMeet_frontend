@@ -8,5 +8,6 @@ import { Company } from 'src/app/_models/company';
 })
 export class CompanyInfoBoxComponent {
     @Input() company!: Company;
+    @Input() defaultImage: string | null = '../../../assets/photo_placeholder.jpg';
 
 }

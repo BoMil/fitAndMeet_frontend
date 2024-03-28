@@ -1,5 +1,17 @@
 <div class="company-details-form">
+    <app-image-container [defaultImage]="'../../../../../assets/photo_placeholder.jpg'" [label]="'Company image'" [imgSrc]="companyImageUrl"/>
+
     <form [formGroup]="companyForm">
+        <app-upload-bar 
+            style="width: 100%;"
+            (dataForServerUpload)="imageUploadedToBrowser($event)"
+            [fileText]="fileName"
+            (fileTextChange)="updateFileName($event)"
+            [canValidate]="isSubmitted"
+            [leftLabel]="'Upload Company image'"
+            [rightLabel]="'PNG or JPEG File. Max. file size: 1000kb'">
+        </app-upload-bar>
+
         <app-input-field 
             [canValidate]="isSubmitted"
             [isMandatory]="true"

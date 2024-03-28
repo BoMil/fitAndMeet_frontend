@@ -15,6 +15,7 @@ export class Company {
     users: User[];
     description: string;
     followingStatus: FollowingStatus | null;
+    imageUrl: string;
 
     constructor(data: any) {
         this.id = data?.id ?? 0;
@@ -29,6 +30,7 @@ export class Company {
         this.users = data?.users ? data.users.map((el: any) => new User(el)) : [];
         this.description = data?.description ?? '';
         this.followingStatus = data?.followingStatus;
+        this.imageUrl = data?.imageUrl ?? '';
     }
 }
 

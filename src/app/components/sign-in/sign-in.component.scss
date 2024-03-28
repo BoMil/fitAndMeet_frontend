@@ -50,7 +50,11 @@
     .form-container {
         width: 70%;
         height: 100%;
-        padding: 6rem 6rem;
+        padding: 4rem 6rem;
+
+        .img-box {
+            margin-bottom: 2rem;
+        }
 
         &.register {
             overflow-y: auto;

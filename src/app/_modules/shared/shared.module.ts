@@ -25,6 +25,8 @@ import { TextareaFieldComponent } from './components/fields/textarea-field/texta
 import { MultiSelectDropdownComponent } from './components/fields/multi-select-dropdown/multi-select-dropdown.component';
 import { TableSearchFilterComponent } from './components/fields/table-search-filter/table-search-filter.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { UploadBarComponent } from './components/fields/upload-bar/upload-bar.component';
+import { ImageContainerComponent } from './standalone/image-container/image-container.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     TextareaFieldComponent,
     MultiSelectDropdownComponent,
     TableSearchFilterComponent,
+    UploadBarComponent,
   ],
   imports: [
     CommonModule,
@@ -57,6 +60,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatSidenavModule,
     GoogleMapsModule,
     MatSlideToggleModule,
+    ImageContainerComponent,
   ],
   exports: [
     CommonModule,
@@ -88,6 +92,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     TextareaFieldComponent,
     MultiSelectDropdownComponent,
     TableSearchFilterComponent,
+    UploadBarComponent,
+    ImageContainerComponent,
 
   ]
 })

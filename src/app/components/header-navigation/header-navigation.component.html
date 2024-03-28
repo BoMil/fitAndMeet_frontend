@@ -14,7 +14,12 @@
 
         <div class="user-box" *ngIf="authStateService.currentUser !== null">
             <app-notification-icon />
-            <mat-icon [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">account_circle</mat-icon>
+
+            <img [matMenuTriggerFor]="menu" class="user-avatar" *ngIf="authStateService.currentUser?.avatar; else noUserAvatar" src="{{authStateService.currentUser?.avatar}}" alt="">
+
+            <ng-template #noUserAvatar>
+                <mat-icon [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">account_circle</mat-icon>
+            </ng-template>
 
             <mat-menu #menu="matMenu">
                 <div>{{authStateService.currentUser?.first_name}}</div>
