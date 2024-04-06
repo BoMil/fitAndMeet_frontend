@@ -20,6 +20,10 @@
         background-color: var(--rgba-event-available-bg);
     }
 
+    &.unavailable {
+        background-color: var(--rgba-event-unavailable-bg);
+    }
+
 
     .title-box {
         font-size: 15px;
@@ -63,6 +67,10 @@
     
             &.available {
                 color: var(--event-available);
+            }
+
+            &.unavailable {
+                color: var(--event-unavailable);
             }
         }
     }

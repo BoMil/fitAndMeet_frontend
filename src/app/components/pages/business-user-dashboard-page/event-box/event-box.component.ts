@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { EventModel } from 'src/app/_models/event';
 
 @Component({
@@ -8,5 +8,6 @@ import { EventModel } from 'src/app/_models/event';
 })
 export class EventBoxComponent {
     @Input() data!: EventModel;
-
+    @Input() isEndUser: boolean = false;
+    @Output() bookEvent: EventEmitter<EventModel> = new EventEmitter();
 }

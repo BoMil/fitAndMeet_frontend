@@ -9,6 +9,7 @@ import { Guid } from "typescript-guid";
 export class AzureBlobService {
     private accountName: string = "meetandfeetstorage";
     private containerName: string = '';
+    // TODO: Store it in .env file
     private sasToken: string = "sp=racwd&st=2024-03-27T17:48:16Z&se=2026-03-31T23:48:16Z&spr=https&sv=2022-11-02&sr=c&sig=XKc8he2%2FdLb%2BMOGfk%2FPlUeQLu3amBrTGXuvD9fFx6vo%3D";
     constructor(
         private toastr: ToastrService,

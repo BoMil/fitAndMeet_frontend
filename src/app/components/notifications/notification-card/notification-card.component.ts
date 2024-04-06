@@ -14,6 +14,7 @@ export class NotificationCardComponent implements OnInit {
     @Input() notification!: NotificationModel;
     notificationType = NotificationType;
     title: string = '';
+    isDetailsOptionVisible: boolean = false;
 
     constructor(
         private followApiService: FollowApiService,
@@ -22,6 +23,8 @@ export class NotificationCardComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        this.isDetailsOptionVisible = this.notification.notificationType === NotificationType.FOLLOW_REQUEST_PENDING
+        || this.notification.notificationType === NotificationType.EVENT_REQUEST_PENDING;
         this.setTitle();
     }
 
@@ -35,6 +38,15 @@ export class NotificationCardComponent implements OnInit {
                 break;
             case NotificationType.FOLLOW_REQUEST_DECLINED:
                 this.title ='Follow request declined';
+                break;
+            case NotificationType.EVENT_REQUEST_ACCEPTED:
+                this.title ='Event request accepted';
+                break;
+            case NotificationType.EVENT_REQUEST_DECLINED:
+                this.title ='Event request declined';
+                break;
+            case NotificationType.EVENT_REQUEST_PENDING:
+                this.title ='Event request pending';
                 break;
             default:
                 this.title ='New Notification';

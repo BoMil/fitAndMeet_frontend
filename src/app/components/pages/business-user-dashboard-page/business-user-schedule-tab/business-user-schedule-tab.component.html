@@ -9,17 +9,21 @@
 
         <full-calendar #calendar [options]="calendarOptions">
             <ng-template #eventContent let-arg>
-                <div class="cal-event">
+                <div class="cal-event" [ngClass]="{
+                    available: arg.event.extendedProps?.status === 'available',
+                    unavailable: arg.event.extendedProps?.status === 'unavailable',
+                    pending: arg.event.extendedProps?.status === 'pending',
+                    accepted: arg.event.extendedProps?.status === 'accepted',
+                    declined: arg.event.extendedProps?.status === 'declined'}">
                     <b class="cal-event-time" [ngClass]="{
+                        available: arg.event.extendedProps?.status === 'available',
+                        unavailable: arg.event.extendedProps?.status === 'unavailable',
                         pending: arg.event.extendedProps?.status === 'pending',
                         accepted: arg.event.extendedProps?.status === 'accepted',
                         declined: arg.event.extendedProps?.status === 'declined'}">
                         {{ arg.timeText }}
                     </b>
-                    <i class="cal-event-title" [ngClass]="{
-                        pending: arg.event.extendedProps?.status === 'pending',
-                        accepted: arg.event.extendedProps?.status === 'accepted',
-                        declined: arg.event.extendedProps?.status === 'declined'}">
+                    <i class="cal-event-title" >
                         {{ arg.event.title }}
                     </i>
                 </div>
@@ -34,7 +38,10 @@
     <div class="events-container">
         <h2>Events for a selected day</h2>
         <div class="event-item" *ngFor="let event of buDashboardStateService.selectedDayEvents">
-            <app-event-box [data]="event" />
+            <app-event-box
+                (bookEvent)="bookEvent($event)"
+                [data]="event"
+                [isEndUser]="authStateService.currentUser?.role === role.END_USER" />
         </div>
 
         <div *ngIf="!buDashboardStateService.selectedDayEvents.length" class="no-data-msg">No events for current date</div>

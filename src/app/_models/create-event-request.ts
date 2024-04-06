@@ -1,4 +1,4 @@
-import { EventStatus } from "../_enums/event-status";
+import { UserEventStatus } from "../_enums/user-event-status";
 
 export interface ICreateEventRequest {
     id?: number;
@@ -6,5 +6,5 @@ export interface ICreateEventRequest {
     end_at: Date | null;
     user_id: number;
     description: string;
-    status?: EventStatus;
+    status?: UserEventStatus;
 }

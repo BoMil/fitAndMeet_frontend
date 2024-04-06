@@ -1,8 +1,9 @@
 <div class="event-box-container" [ngClass]="{
-    pending: data.status === 'pending',
-    accepted: data.status === 'accepted',
-    declined: data.status === 'declined',
-    available: data.status === 'available'
+    pending: data.userStatus === 'pending',
+    accepted: data.userStatus === 'accepted',
+    declined: data.userStatus === 'declined',
+    available: data.userStatus === 'available',
+    unavailable: data.userStatus === 'unavailable'
     }">
     <div class="title-box">{{ data.description }}</div>
 
@@ -15,16 +16,16 @@
         </div>
     </div>
 
-    <!-- TODO: Should be visible only on status available -->
-    <div class="buttons-container">
-        <button class="button regular--medium">Book event</button>
+    <div class="buttons-container" *ngIf="data.userStatus === 'available' && isEndUser">
+        <button class="button regular--medium" (click)="bookEvent.emit(data)">Book event</button>
     </div>
 
     <div class="clock">
         <mat-icon [ngClass]="{
-            pending: data.status === 'pending',
-            accepted: data.status === 'accepted',
-            declined: data.status === 'declined',
-            available: data.status === 'available'}">access_time</mat-icon>
+            unavailable: data.userStatus === 'unavailable',
+            pending: data.userStatus === 'pending',
+            accepted: data.userStatus === 'accepted',
+            declined: data.userStatus === 'declined',
+            available: data.userStatus === 'available'}">access_time</mat-icon>
     </div>
 </div>

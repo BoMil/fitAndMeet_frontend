@@ -83,7 +83,7 @@ export class BusinessUserDashboardPageComponent implements OnInit, OnDestroy, Af
 
     ngOnDestroy(): void {
         if (this.slider) {
-            this.slider.destroy();
+            this.slider?.destroy();
         }
         this.ngUnsubscribe.next(null);
 		this.ngUnsubscribe.complete();

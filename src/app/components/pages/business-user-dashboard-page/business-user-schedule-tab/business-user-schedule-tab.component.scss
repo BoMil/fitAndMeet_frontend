@@ -31,8 +31,14 @@
             color: white;
         }
 
+        .unavailable {
+            background-color: var(--event-unavailable);
+            color: white;
+        }
+
         .cal-event {
             overflow: hidden;
+            border-radius: 4px;
 
             .cal-event-time {
                 padding: 0.2rem 0 0.2rem 0.2rem;

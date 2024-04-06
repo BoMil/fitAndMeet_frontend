@@ -1,16 +1,12 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { CalendarOptions, EventApi, DateSelectArg, EventClickArg, EventHoveringArg } from '@fullcalendar/core';
 import { Subject, takeUntil } from 'rxjs';
-import { Auth } from 'src/app/_enums/auth';
 import { CalendarView } from 'src/app/_enums/calendar-view';
 import { AuthStateService } from 'src/app/_global-state-services/auth/auth-state.service';
 import { EventFormStateService } from 'src/app/_global-state-services/events/event-form-state.service';
 import { EventModel } from 'src/app/_models/event';
-import { InfoBoxData } from 'src/app/_models/info-box-data';
-import { User } from 'src/app/_models/user';
-import { UserApiService } from 'src/app/_services/api-services/user-api.service';
 import { EventsApiService } from 'src/app/_services/events/events-api.service';
 import { EventsRepackService } from 'src/app/_services/events/events-repack.service';
 import { ModalService } from 'src/app/_services/modal.service';
@@ -21,6 +17,9 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { BuDashboardStateService } from 'src/app/_global-state-services/bu-dashboard/bu-dashboard-state.service';
 import { RoleEnum } from 'src/app/_enums/user-role';
+import { GetEventsByBUIdRequest } from '../../../../_interfaces/events-by-bu-id-request';
+import { BookEventRequest } from '../../../../_interfaces/book-event-request';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-business-user-schedule-tab',
@@ -29,6 +28,7 @@ import { RoleEnum } from 'src/app/_enums/user-role';
 })
 export class BusinessUserScheduleTabComponent implements OnInit {
     // calendarVisible = true;
+    @Input() isBusinessUser: boolean = true;
 
 	calendarOptions: CalendarOptions = {
 		plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
@@ -72,6 +72,7 @@ export class BusinessUserScheduleTabComponent implements OnInit {
     // userInfoBox!: InfoBoxData | null;
 	// allEvents: EventModel[] = [];
 	// selectedDayEvents: EventModel[] = [];
+    role = RoleEnum;
 
 	constructor(
 		private changeDetector: ChangeDetectorRef,
@@ -80,7 +81,7 @@ export class BusinessUserScheduleTabComponent implements OnInit {
 		private modalService: ModalService,
 		public eventFormStateService: EventFormStateService,
         private activatedRoute: ActivatedRoute,
-        private userService: UserApiService,
+        private toastr: ToastrService,
         public authStateService: AuthStateService,
         private router: Router,
         private helperService: HelperService,
@@ -118,13 +119,22 @@ export class BusinessUserScheduleTabComponent implements OnInit {
     }
 
 	fetchBusinesUserEvents() {
-        const userId = this.activatedRoute.snapshot.paramMap.get("id");
-
-        if (!userId) {
-           return;
+        let businessUserId: number = this.buDashboardStateService.currentDashboardBusinessUser?.id ?? 0;
+        let endUserId: number | null = null;
+        // First check if the current user is coach
+        if (!this.isBusinessUser) {
+            endUserId = this.authStateService.currentUser?.id ?? 0;
         }
 
-		this.eventsApiService.getAllEventsByBusinessUser(Number(userId)).subscribe((data) => {
+        const request: GetEventsByBUIdRequest = {
+            businessUserId: businessUserId
+        }
+
+        if (endUserId) {
+            request.endUserId = endUserId;
+        }
+
+		this.eventsApiService.getAllEventsByBusinessUserId(request).subscribe((data) => {
             this.buDashboardStateService.allEvents = [];
 
             for (let index = 0; index < data.length; index++) {
@@ -143,6 +153,7 @@ export class BusinessUserScheduleTabComponent implements OnInit {
 
 	handleDateSelect(selectInfo: DateSelectArg) {
 		// this.modalService.toggleModal({id: 'event-form', opened: true});
+		console.log('handleDateSelect', selectInfo);
 
         // Disable event creation in case it is not business user
         if (!this.buDashboardStateService.currentDashboardBusinessUser || this.authStateService.currentUser?.role !== RoleEnum.BUSINESS_USER) {
@@ -159,6 +170,11 @@ export class BusinessUserScheduleTabComponent implements OnInit {
 		// }
 
         this.getEventsByDate(selectInfo.start);
+
+        // Don't open the form if user click on all day
+        if (selectInfo.allDay) {
+            return;
+        }
 
         this.eventFormStateService.fillEventForm({
             description: '',
@@ -228,5 +244,37 @@ export class BusinessUserScheduleTabComponent implements OnInit {
         }
 
         console.log('Events on selected day', this.buDashboardStateService.selectedDayEvents);
+    }
+
+    bookEvent(event: EventModel) {
+        const request: BookEventRequest = {
+            eventId: event.id ?? 0,
+            endUserId: this.authStateService.currentUser?.id ?? 0
+        }
+
+        // Send request
+        this.eventsApiService.bookEvent(request).subscribe({
+            next: (value) => {
+                // If successful refresh the list of events with new statuses
+                const updatedEvent: EventModel = new EventModel(value);
+                console.log('updatedEvent', updatedEvent);
+
+                // Find event and update it's status
+                for (let index = 0; index < this.buDashboardStateService.allEvents.length; index++) {
+                    const element = this.buDashboardStateService.allEvents[index];
+                    if (element.id === updatedEvent.id) {
+                        element.userStatus = updatedEvent.userStatus;
+                        break;
+                    }
+                }
+
+                this.addUserEventsToCalendar();
+            },
+            error: (err) => {
+                this.toastr.error('Failed to book event');
+            },
+        });
+
+        
     }
 }

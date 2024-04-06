@@ -2,7 +2,7 @@
     <div class="title">{{ title }}</div>
     <div class="body">{{ notification.content }}</div>
 
-    <div (click)="notificationsStateService.openNotificationDetails(notification)" class="link-text" *ngIf="notification.notificationType === notificationType.FOLLOW_REQUEST_PENDING">
+    <div (click)="notificationsStateService.openNotificationDetails(notification)" class="link-text" *ngIf="isDetailsOptionVisible">
         See the details
     </div>
     <div class="dates-box">

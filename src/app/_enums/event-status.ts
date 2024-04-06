@@ -1,5 +1,4 @@
 export enum EventStatus {
-    accepted = 'accepted',
-    declined = 'declined',
-    pending = 'pending'
+  OPEN = 'open',
+  CLOSED = 'closed', // drugi useri nmg da ga prihvate
 }
