@@ -27,15 +27,15 @@ export class BuDashboardStateService {
 
     fetchBusinesUserById(id: number) {
         this.mainState = 'LOADING';
-        this.userService.getBusinessUserById(id).subscribe(
-            (data) => {
+        this.userService.getBusinessUserById(id).subscribe({
+            next: (data) => {
                 this.mainState = 'LOADED';
-                this.currentDashboardBusinessUser = new User(data[0]); // TODO: Should change 
+                this.currentDashboardBusinessUser = new User(data);
             },
-            (error) => {
+            error: (error) => {
                 this.mainState = 'ERROR';
             }
-        );
+        });
     }
 
     fetchAllFollowedBusinessUsers(id: number) {

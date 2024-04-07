@@ -1,5 +1,5 @@
 <div class="notification-card-container" [class.is-read]="notification.is_read">
-    <div class="title">{{ title }}</div>
+    <div class="title">{{ notification.title }}</div>
     <div class="body">{{ notification.content }}</div>
 
     <div (click)="notificationsStateService.openNotificationDetails(notification)" class="link-text" *ngIf="isDetailsOptionVisible">

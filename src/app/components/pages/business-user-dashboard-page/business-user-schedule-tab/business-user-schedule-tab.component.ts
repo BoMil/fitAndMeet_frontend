@@ -28,7 +28,6 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class BusinessUserScheduleTabComponent implements OnInit {
     // calendarVisible = true;
-    @Input() isBusinessUser: boolean = true;
 
 	calendarOptions: CalendarOptions = {
 		plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin],
@@ -121,8 +120,8 @@ export class BusinessUserScheduleTabComponent implements OnInit {
 	fetchBusinesUserEvents() {
         let businessUserId: number = this.buDashboardStateService.currentDashboardBusinessUser?.id ?? 0;
         let endUserId: number | null = null;
-        // First check if the current user is coach
-        if (!this.isBusinessUser) {
+        // First check if the current user is end user
+        if (this.authStateService.currentUser?.role === RoleEnum.END_USER) {
             endUserId = this.authStateService.currentUser?.id ?? 0;
         }
 

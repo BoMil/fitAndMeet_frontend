@@ -19,7 +19,7 @@ export class UserApiService {
     }
 
     getBusinessUserById(id: number) {
-        return this.requestHandlerService.sendGetRequest(`${this.userApiUrl}/${id}`, null);
+        return this.requestHandlerService.sendPostRequest(`${this.userApiUrl}/getUserById`, { userId: id });
     }
 
     registerUser(request: CreateOrUpadateUserRequest) {

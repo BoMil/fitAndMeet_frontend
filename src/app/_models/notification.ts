@@ -17,7 +17,26 @@ export class NotificationModel {
         this.created_at = data?.created_at || '';
         this.notificationType = data?.notificationType || '';
         this.is_read = data?.is_read || false;
-        this.title = data?.title || '';
+        this.title = data?.title ? data.title : this.setTitle(this.notificationType);
         this.content = data?.content || '';
+    }
+
+    setTitle(type: string): string {
+        switch (type) {
+            case NotificationType.FOLLOW_REQUEST_PENDING:
+                return 'Follow request';
+            case NotificationType.FOLLOW_REQUEST_ACCEPTED:
+                return'Follow request accepted';
+            case NotificationType.FOLLOW_REQUEST_DECLINED:
+                return'Follow request declined';
+            case NotificationType.EVENT_REQUEST_ACCEPTED:
+                return'Event request accepted';
+            case NotificationType.EVENT_REQUEST_DECLINED:
+                return'Event request declined';
+            case NotificationType.EVENT_REQUEST_PENDING:
+                return'Event request pending';
+            default:
+                return'New Notification';
+        }
     }
 }
