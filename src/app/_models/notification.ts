@@ -9,16 +9,18 @@ export class NotificationModel {
     title: string;
     content: string;
     is_read: boolean;
+    eventId?: number;
 
     constructor(data?: any) {
         this.id = data?.id || 0;
         this.userId = data?.userId || 0;
-        this.notificationTriggerUserId = data?.notificationTriggerUserId || 0;
+        this.notificationTriggerUserId = data?.notificationTriggerUserId;
         this.created_at = data?.created_at || '';
         this.notificationType = data?.notificationType || '';
         this.is_read = data?.is_read || false;
         this.title = data?.title ? data.title : this.setTitle(this.notificationType);
         this.content = data?.content || '';
+        this.eventId = data?.eventId;
     }
 
     setTitle(type: string): string {

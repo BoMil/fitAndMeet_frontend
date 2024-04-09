@@ -11,9 +11,10 @@
     </div>
 
     <div *ngIf="notificationsStateService.selectedNotification?.notificationType === notificationType.EVENT_REQUEST_PENDING">
-        <div>Accept or decline event request</div>
+        <div><span class="info-label">Event status:</span>  {{ event?.userStatus }}</div>
+        <div><span class="info-label">Event description:</span> {{ event?.description}}</div>
 
-        <div class="buttons-container">
+        <div class="buttons-container" *ngIf="event?.userStatus === eventStatus.PENDING">
             <button class="button full-width blue" (click)="acceptEventRequest()">Accept request</button>            
             <button class="button full-width remove" (click)="declineEventRequest()">Decline request</button>            
         </div>
