@@ -42,24 +42,25 @@ export class NotificationIconComponent implements OnInit, OnDestroy {
             return;
         }
         const userRoomId: string = this.authStateService.currentUser.id.toString();
-        this.websocketService.leaveRoom(userRoomId);
-        this.websocketService.joinRoom(userRoomId);
-        this.websocketService.listenForMessages('newNotification').pipe(takeUntil(this.ngUnsubscribe)).subscribe({
-            next: (value: WSNotificationContent) => {
-                console.log('newNotification message', value);
-                this.notificationStateService.userNotificationArrived.next(value);
+        // TODO: Uncoment when fix sockets on the vercel
+        // this.websocketService.leaveRoom(userRoomId);
+        // this.websocketService.joinRoom(userRoomId);
+        // this.websocketService.listenForMessages('newNotification').pipe(takeUntil(this.ngUnsubscribe)).subscribe({
+        //     next: (value: WSNotificationContent) => {
+        //         console.log('newNotification message', value);
+        //         this.notificationStateService.userNotificationArrived.next(value);
 
-                if (value?.unreadNotificationsCount) {
-                    this.notificationStateService.unreadNotificationsCount = value?.unreadNotificationsCount;
-                }
+        //         if (value?.unreadNotificationsCount) {
+        //             this.notificationStateService.unreadNotificationsCount = value?.unreadNotificationsCount;
+        //         }
 
-                // if (value.type === NotificationType.FOLLOW_REQUEST) {
+        //         // if (value.type === NotificationType.FOLLOW_REQUEST) {
                     
-                // }
-            },
-            error: (err: any) => {
-                console.error('newNotification err', err);
-            },
-        });
+        //         // }
+        //     },
+        //     error: (err: any) => {
+        //         console.error('newNotification err', err);
+        //     },
+        // });
     }
 }
