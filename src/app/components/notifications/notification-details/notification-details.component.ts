@@ -137,8 +137,9 @@ export class NotificationDetailsComponent implements OnInit {
 	}
 
     acceptEventRequest() {
-        if (!this.notificationsStateService.selectedNotification?.eventId || this.notificationsStateService.selectedNotification?.notificationTriggerUserId || this.notificationsStateService.selectedNotification?.userId) {
+        if (!this.notificationsStateService.selectedNotification?.eventId || !this.notificationsStateService.selectedNotification?.notificationTriggerUserId || !this.notificationsStateService.selectedNotification?.userId) {
             this.toastr.error('Request data are not valid');
+            console.error(`Request data are not valid -> eventId: ${this.notificationsStateService.selectedNotification?.eventId}, notificationTriggerUserId: ${this.notificationsStateService.selectedNotification?.notificationTriggerUserId}, userId: ${this.notificationsStateService.selectedNotification?.userId},`);
             return;
         }
         const request: AcceptDeclineEventRequest = {
@@ -161,8 +162,9 @@ export class NotificationDetailsComponent implements OnInit {
     }
 
     declineEventRequest() {
-        if (!this.notificationsStateService.selectedNotification?.eventId || this.notificationsStateService.selectedNotification?.notificationTriggerUserId || this.notificationsStateService.selectedNotification?.userId) {
+        if (!this.notificationsStateService.selectedNotification?.eventId || !this.notificationsStateService.selectedNotification?.notificationTriggerUserId || !this.notificationsStateService.selectedNotification?.userId) {
             this.toastr.error('Request data are not valid');
+            console.error(`Request data are not valid -> eventId: ${this.notificationsStateService.selectedNotification?.eventId}, notificationTriggerUserId: ${this.notificationsStateService.selectedNotification?.notificationTriggerUserId}, userId: ${this.notificationsStateService.selectedNotification?.userId},`);
             return;
         }
 

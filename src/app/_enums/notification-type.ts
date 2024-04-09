@@ -9,4 +9,6 @@ export enum NotificationType {
     EVENT_REQUEST_PENDING = 'event_request_pending',
     EVENT_REQUEST_ACCEPTED = 'event_request_accepted',
     EVENT_REQUEST_DECLINED = 'event_request_declined',
+    EVENT_CREATED = 'event_created',
+    EVENT_UPDATED = 'event_updated',
 }

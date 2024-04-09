@@ -20,6 +20,9 @@ import { RoleEnum } from 'src/app/_enums/user-role';
 import { GetEventsByBUIdRequest } from '../../../../_interfaces/events-by-bu-id-request';
 import { BookEventRequest } from '../../../../_interfaces/book-event-request';
 import { ToastrService } from 'ngx-toastr';
+import { NotificationsStateService } from '../../../../_global-state-services/notifications/notifications-state.service';
+import { WSNotificationContent } from '../../../../_interfaces/ws-notification-content';
+import { NotificationType } from '../../../../_enums/notification-type';
 
 @Component({
   selector: 'app-business-user-schedule-tab',
@@ -85,9 +88,11 @@ export class BusinessUserScheduleTabComponent implements OnInit {
         private router: Router,
         private helperService: HelperService,
         public buDashboardStateService: BuDashboardStateService,
+        public notificationStateService: NotificationsStateService,
 
 	) {}
 	ngOnInit() {
+        this.listenWhenUserNotificationsArrived();
         this.fetchBusinesUserEvents();
 
         // End user can't create/edit events
@@ -153,6 +158,7 @@ export class BusinessUserScheduleTabComponent implements OnInit {
 	handleDateSelect(selectInfo: DateSelectArg) {
 		// this.modalService.toggleModal({id: 'event-form', opened: true});
 		console.log('handleDateSelect', selectInfo);
+        this.getEventsByDate(selectInfo.start);
 
         // Disable event creation in case it is not business user
         if (!this.buDashboardStateService.currentDashboardBusinessUser || this.authStateService.currentUser?.role !== RoleEnum.BUSINESS_USER) {
@@ -167,8 +173,6 @@ export class BusinessUserScheduleTabComponent implements OnInit {
 		// if (selectInfo.view.type === CalendarView.MONTH_VIEW) {
 		// 	calendarApi.changeView('timeGridDay', selectInfo.startStr);
 		// }
-
-        this.getEventsByDate(selectInfo.start);
 
         // Don't open the form if user click on all day
         if (selectInfo.allDay) {
@@ -273,7 +277,27 @@ export class BusinessUserScheduleTabComponent implements OnInit {
                 this.toastr.error('Failed to book event');
             },
         });
+    }
 
-        
+    listenWhenUserNotificationsArrived() {
+        if (!this.authStateService.currentUser) {
+            return;
+        }
+
+        this.notificationStateService.userNotificationArrived.pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+            {
+                next: (notification: WSNotificationContent) => {
+                    // console.warn('WEBSOCKET', notification);
+
+                    // Every time some user book (end_user), accept or decline (business_user) event,
+                    // reload the calendar to see the latest event statuses
+                    if (notification.type === NotificationType.EVENT_REQUEST_ACCEPTED || notification.type === NotificationType.EVENT_REQUEST_DECLINED 
+                        || notification.type === NotificationType.EVENT_REQUEST_PENDING || notification.type === NotificationType.EVENT_CREATED
+                        || notification.type === NotificationType.EVENT_UPDATED) {
+                        this.fetchBusinesUserEvents();
+                    }
+                }
+            }
+        );
     }
 }
