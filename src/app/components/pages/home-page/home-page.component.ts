@@ -59,11 +59,11 @@ export class HomePageComponent implements OnInit {
 
     tabs: RegularTab[] = [
         {
-            name: 'Company',
+            name: 'Kompanije',
             selected: true
         },
         {
-            name: 'Coaches',
+            name: 'Treneri',
             selected: false
         }
     ];

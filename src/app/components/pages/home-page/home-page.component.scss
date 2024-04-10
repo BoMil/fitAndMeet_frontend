@@ -8,9 +8,19 @@
         padding: 5.2rem 0 0 0.8rem;
 
         .user-info {
+
             .items-container {
                 overflow: scroll;
                 max-height: 505px;
+            }
+
+            .tabs-box {
+                margin-bottom: 6px;
+                padding: 0px 10px;
+            }
+
+            .tabs-content-box {
+                padding: 0px 20px;
             }
         }
     }

@@ -53,10 +53,12 @@
         </div>
 
         <div class="user-info">
-            <app-regular-tabs [tabs]="tabs" (tabSelected)="tabSelected($event)"></app-regular-tabs>
+            <div class="tabs-box">
+                <app-regular-tabs [tabs]="tabs" (tabSelected)="tabSelected($event)"></app-regular-tabs>
+            </div>
 
-            <ng-container [ngSwitch]="selectedTab.name">
-                <ng-container *ngSwitchCase="'Company'">
+            <div class="tabs-content-box" [ngSwitch]="selectedTab.name">
+                <ng-container *ngSwitchCase="'Kompanije'">
                     <div class="items-container">
                         <app-collapsible-item *ngFor="let company of companiesStateService.companiesInArea"
                             (sectionToggled)="onCompanySectionToggled($event)"
@@ -71,10 +73,10 @@
                     </div>
                 </ng-container>
 
-                <ng-container *ngSwitchCase="'Coaches'">
+                <ng-container *ngSwitchCase="'Treneri'">
                     <app-custom-carousel [setCarouselItems]="carouselItems"/>
                 </ng-container>
-            </ng-container>
+            </div>
         </div>
     </div>
 </div>
