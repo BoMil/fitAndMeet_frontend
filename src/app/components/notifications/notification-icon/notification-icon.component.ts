@@ -33,8 +33,8 @@ export class NotificationIconComponent implements OnInit, OnDestroy {
         if (!this.authStateService.currentUser) {
             return;
         }
-        const userRoomId: string = this.authStateService.currentUser.id.toString();
-        this.websocketService.leaveRoom(userRoomId);
+        // const userRoomId: string = this.authStateService.currentUser.id.toString();
+        // this.websocketService.leaveRoom(userRoomId);
     }
 
     subscribeToWebSockets() {

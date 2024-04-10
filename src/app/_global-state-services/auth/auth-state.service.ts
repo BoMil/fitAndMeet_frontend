@@ -59,7 +59,7 @@ export class AuthStateService implements OnInit {
 		this.state = Auth.UNAUTHENTICATED;
         if (this.currentUser) {
             const userRoomId: string = this.currentUser.id.toString();
-            this.websocketService.leaveRoom(userRoomId);
+            // this.websocketService.leaveRoom(userRoomId);
         }
 
 		this.currentUser = null;
