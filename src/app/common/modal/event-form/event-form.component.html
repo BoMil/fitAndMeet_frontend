@@ -16,6 +16,14 @@
             [placeholderText]="'Add event description'"
             [label]="'Event description'" />
 
+        <app-input-field
+            [canValidate]="isSubmitted"
+            [isMandatory]="true"
+            [type]="'number'"
+            [inputText]="eventForm.controls.numberOfAttendees"
+            [placeholderText]="'Add number of attendees'"
+            [label]="'Number of attendees'" />
+
         <ng-container *ngIf="!isCreateEvent" >
             <button class="button blue--big full-width" (click)="saveEventChanges()">Save</button>
             <button class="button red--big full-width" (click)="deleteEvent()">Delete</button>

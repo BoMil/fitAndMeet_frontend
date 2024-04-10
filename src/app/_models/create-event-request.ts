@@ -7,4 +7,5 @@ export interface ICreateEventRequest {
     user_id: number;
     description: string;
     status?: UserEventStatus;
+    numberOfAttendees: number;
 }

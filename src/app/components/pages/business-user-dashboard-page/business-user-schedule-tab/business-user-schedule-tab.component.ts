@@ -183,7 +183,8 @@ export class BusinessUserScheduleTabComponent implements OnInit {
             description: '',
             startTime: selectInfo.start,
             endTime: selectInfo.end,
-            userId: this.buDashboardStateService.currentDashboardBusinessUser?.id
+            userId: this.buDashboardStateService.currentDashboardBusinessUser?.id,
+            numberOfAttendees: 1
         });
         this.modalService.openCreateEventFormModal();
 	}
@@ -207,7 +208,8 @@ export class BusinessUserScheduleTabComponent implements OnInit {
             startTime: clickInfo.event.start,
             endTime: clickInfo.event.end,
             eventId: Number(clickInfo.event.id),
-            userId: this.buDashboardStateService.currentDashboardBusinessUser.id
+            userId: this.buDashboardStateService.currentDashboardBusinessUser.id,
+            numberOfAttendees: clickInfo.event.extendedProps['numberOfAttendees'] ?? 1,
         });
         this.modalService.openEditEventFormModal();
 	}

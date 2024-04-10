@@ -13,6 +13,7 @@ export class EventFormComponent {
 
 	eventForm = new FormGroup({
 		eventDescription: this.stateService.eventDescription,
+		numberOfAttendees: this.stateService.numberOfAttendees,
 	});
 
 	isInitialLoad: boolean = true;

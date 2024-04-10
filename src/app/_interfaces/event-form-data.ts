@@ -4,4 +4,5 @@ export interface IEventFormData {
     endTime: Date | null;
     eventId?: number;
     userId: number;
+    numberOfAttendees: number;
 }

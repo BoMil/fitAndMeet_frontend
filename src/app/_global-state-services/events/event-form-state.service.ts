@@ -14,6 +14,7 @@ import { BuDashboardStateService } from '../bu-dashboard/bu-dashboard-state.serv
 export class EventFormStateService {
 
   public eventDescription: FormControl = new FormControl('', Validators.required);
+  public numberOfAttendees: FormControl = new FormControl<number>(1, [Validators.required, Validators.min(1)]);
   public eventStartTime!: Date | null;
   public eventEndTime!: Date | null;
   public eventId!: number;
@@ -28,6 +29,7 @@ export class EventFormStateService {
 
   resetEventFormState() {
     this.eventDescription.setValue('');
+    this.numberOfAttendees.setValue(1);
     this.eventStartTime = null;
     this.eventEndTime = null;
   }
@@ -38,7 +40,8 @@ export class EventFormStateService {
         description: this.eventDescription.value,
         start_at: this.eventStartTime,
         end_at: this.eventEndTime,
-        user_id: this.userId
+        user_id: this.userId,
+        numberOfAttendees: Number(this.numberOfAttendees.value)
     };
 
     this.eventsApiService.updateEventToBusinessUserCalendar(serverRequest).subscribe(
@@ -57,6 +60,7 @@ export class EventFormStateService {
                         element.end_at = event.end_at;
                         element.status = event.status;
                         element.description = event.description;
+                        element.numberOfAttendees = event.numberOfAttendees;
                         break;
                     }
                 }
@@ -96,7 +100,8 @@ export class EventFormStateService {
         description: this.eventDescription.value,
         start_at: this.eventStartTime,
         end_at: this.eventEndTime,
-        user_id: this.userId
+        user_id: this.userId,
+        numberOfAttendees: Number(this.numberOfAttendees.value)
     };
 
     this.eventsApiService.addEventToBusinessUserCalendar(serverRequest).subscribe(
@@ -121,6 +126,7 @@ export class EventFormStateService {
     this.eventStartTime = data.startTime;
     this.eventEndTime = data.endTime;
     this.userId = data.userId;
+    this.numberOfAttendees.setValue(data.numberOfAttendees);
 
     if (data.eventId) {
         this.eventId = data.eventId;

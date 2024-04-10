@@ -13,7 +13,8 @@ export class EventModel {
     active: boolean;
     userStatus: UserEventStatus;
     numberOfAttendees: number;
-    userEvents: [];
+    userEvents: UserEvent[];
+    ecceptedAttendees: number;
 
     constructor(data: any) {
         this.id = data?.id;
@@ -27,6 +28,26 @@ export class EventModel {
         this.description = data?.description ?? '';
         this.userStatus = data?.userStatus;
         this.numberOfAttendees = data?.numberOfAttendees ?? 1;
-        this.userEvents = data?.userEvents?.length ? data?.userEvents : [];
+        this.userEvents = data?.userEvents?.length ? data?.userEvents.map((el: any) => new UserEvent(el)) : [];
+        this.ecceptedAttendees = this.calculateAcceptedAttendees(this.userEvents);
+    }
+
+    calculateAcceptedAttendees(events: UserEvent[]): number {
+        const acceptedEvents: UserEvent[] = events.filter((el: UserEvent) => el.userEventStatus === UserEventStatus.ACCEPTED);
+        return acceptedEvents.length;
+    }
+}
+
+export class UserEvent {
+    id: number;
+    userEventStatus: UserEventStatus;
+    event_id: number;
+    user_id: number;
+
+    constructor(data?: any) {
+        this.id = data?.id;
+        this.user_id = data?.user_id ?? 0;
+        this.userEventStatus = data?.userEventStatus;
+        this.event_id = data?.event_id ?? 0;
     }
 }
