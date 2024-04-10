@@ -39,7 +39,7 @@ import { PublicLayoutComponent } from './components/public-layout/public-layout.
 import { AppConfig } from './config/config';
 
 const appConfig = new AppConfig();
-const config: SocketIoConfig = { url: appConfig.setting['pathApi'], options: {} };
+// const config: SocketIoConfig = { url: appConfig.setting['pathApi'], options: {} };
 
 @NgModule({
 	declarations: [
@@ -73,7 +73,7 @@ const config: SocketIoConfig = { url: appConfig.setting['pathApi'], options: {} 
 		BrowserAnimationsModule,
 		MatMenuModule,
         LayoutModule,
-        SocketIoModule.forRoot(config),
+        // SocketIoModule.forRoot(config),
         MatBadgeModule,
         SharedModule
 	],
