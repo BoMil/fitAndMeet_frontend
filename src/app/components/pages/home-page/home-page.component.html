@@ -60,16 +60,7 @@
             <div class="tabs-content-box" [ngSwitch]="selectedTab.name">
                 <ng-container *ngSwitchCase="'Kompanije'">
                     <div class="items-container">
-                        <app-collapsible-item *ngFor="let company of companiesStateService.companiesInArea"
-                            (sectionToggled)="onCompanySectionToggled($event)"
-                            [sectionTitle]="company.name"
-                            [sectionData]="company"
-                            [itemId]="company.id"
-                            [setSectionState]="selectedSection">
-                            <ng-container sectionContent>
-                                <app-company-info-box [company]="company" />
-                            </ng-container>
-                        </app-collapsible-item>
+                        <app-company-info-box *ngFor="let company of companiesStateService.companiesInArea" [company]="company" />
                     </div>
                 </ng-container>
 

@@ -1,15 +1,37 @@
 <div class="company-info-box-container">
-    <div class="img-container">
-        <img src="{{ company.imageUrl ? company.imageUrl : defaultImage }}" alt="Fitness image">
+    <div class="header-box">
+        <div class="text">
+            <span class="bold-text">{{ company.name }}</span>
+            <div class="stars-container">
+                <img *ngFor="let item of [1,2,3,4,5]" src="../../../assets/svg/star_{{item <= reviewScore ? 'orange' : 'grey'}}.svg" alt="Star">
+            </div>
+        </div>
+        <div class="review-box">
+            <div class="main">9,1</div>
+            <div class="text">32 reviews</div>
+        </div>
     </div>
 
-    <div class="text-container">
-        <div class="text-row">
-            <span class="label">Name: </span> <span class="text">{{ company.name }}</span>
+    <div class="image-container">
+        <img class="image" src="{{ company.imageUrl ? company.imageUrl : defaultImage }}" alt="Fitness image">
+        <div class="heart-box">
+            <img src="../../../assets/svg/heart_{{isLiked ? 'red' : 'empty'}}.svg" >
         </div>
+    </div>
 
-        <div class="text-row">
-            <span class="label">Address: </span> <span class="text"> {{ company.address }} </span>
-        </div>
+    <div class="text-box">{{ company.description }}</div>
+
+    <div class="secondary-text-box">
+        <span class="icon"><img src="../../../assets/svg/address_pin.svg" alt="Address"></span>
+        <span class="text">{{ company.address }}</span>
+    </div>
+
+    <div class="secondary-text-box">
+        <span class="icon"><img src="../../../assets/svg/clock.svg" alt="Address"></span>
+        <span class="text">Pon - Sub: 08h - 20h, Ned: neradna</span>
+    </div>
+
+    <div class="action-text">
+        Saznajte više
     </div>
 </div>

@@ -107,6 +107,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: grey;
 }
 
+.heart-box {
+    padding: 6px 7px 2px;
+    background-color: var(--white-color);
+    border-radius: 100%;
+    box-shadow: var(--cards-box-shadow);
+}
+
 // @keyframes fade-in {
 //     from {
 //       opacity: 0;

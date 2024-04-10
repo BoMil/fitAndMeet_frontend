@@ -1,24 +1,44 @@
 .company-info-box-container {
-    padding: 5px;
+    padding: 23px;
+    box-shadow: var(--cards-box-shadow);
+    border-radius: 5px;
+    margin-bottom: 10px;
 
-    .img-container {
-        height: 220px;
+    .header-box {
+        margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: auto 50px;
+    }
 
-        img {
-            height: 220px;
+    .text-box {
+        margin-bottom: 12px;
+    }
+
+    .secondary-text-box {
+        margin-bottom: 6px;
+    }
+
+    .image-container {
+        margin-bottom: 28px;
+        position: relative;
+
+        .image {
             width: 100%;
+            height: 160px;
+        }
+
+        .heart-box {
+            position: absolute;
+            top: 8px;
+            right: 10px;
         }
     }
 
-    .text-container {
-        .text-row {
-            border-bottom: 1px solid var(--border-input-primary-color);
-            padding: 15px 0px;
-
-            .label {
-                font-weight: 500;
-                color: var(--placeholder-primary-color);
-            }
-        }
+    .action-text {
+        color: var(--main-orange-color);
+        font-weight: 400;
+        font-size: 14px;
+        text-align: end;
+        cursor: pointer;
     }
 }
