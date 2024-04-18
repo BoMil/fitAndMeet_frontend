@@ -1,0 +1,39 @@
+<div class="coach-info-box-container card-box">
+    <div class="image-container">
+        <img class="image" src="{{ user?.avatar ? user?.avatar : defaultImage }}" alt="Fitness image">
+
+    </div>
+
+    <div class="content-container">
+        <div class="header-box">
+            <div class="text">
+                <span class="bold-text">{{ user?.fullName }}</span>
+                <div class="stars-container">
+                    <img *ngFor="let item of [1,2,3,4,5]" src="../../../assets/svg/star_{{item <= reviewScore ? 'orange' : 'grey'}}.svg" alt="Star">
+                </div>
+            </div>
+            <div class="review-box">
+                <div class="main">9,1</div>
+                <div class="text">32 reviews</div>
+            </div>
+        </div>
+
+        <div class="secondary-text-box">
+            <span class="icon"><img src="../../../assets/svg/address_pin.svg" alt="Address"></span>
+            <span class="medium-text">{{ user?.address }}</span>
+        </div>
+
+        <div class="text-box">Teretana - Aerobik - Funkcionalni trening - Zumba Vođeni treninzi</div>
+
+        <div class="buttons-container">
+            <div class="heart-box">
+                <img src="../../../assets/svg/heart_{{isLiked ? 'red' : 'empty'}}.svg" >
+            </div>
+
+            <ng-container *ngIf="user?.isButtonsVisible">
+                <button *ngIf="user?.isOpenBUDashboardButtonVisible" class="button orange">Raspored treninga</button>
+                <button *ngIf="!user?.isOpenBUDashboardButtonVisible" class="button orange">Zaprati trenera</button>
+            </ng-container>
+        </div>
+    </div>
+</div>

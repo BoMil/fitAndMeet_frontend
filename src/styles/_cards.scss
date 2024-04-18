@@ -17,14 +17,14 @@
     .text {
         font-size: 12px;
         font-weight: 400;
-        color: var(--main-blue-color);
+        color: var(--primary-color);
     }
 }
 
 .bold-text {
     font-size: 18px;
     font-weight: 600;
-    color: var(--main-blue-color);
+    color: var(--primary-color);
     margin-right: 8px;
 }
 
@@ -36,7 +36,7 @@
         height: 20px;
         width: 20px;
         font-size: 18px;
-        color: var(--main-orange-color);
+        color: var(--secondary-color);
 
     }
 }
@@ -45,7 +45,7 @@
     justify-self: end;
 
     .main {
-        background-color: var(--main-orange-color);
+        background-color: var(--secondary-color);
         color: var(--white-color);
         font-weight: 700;
         font-size: 18px;
@@ -62,4 +62,23 @@
         font-size: 8px;
         color: var(--text-grey-primary);
     }
+}
+
+.card-box {
+    padding: 23px;
+    box-shadow: var(--cards-box-shadow);
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.header-box {
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: auto 50px;
+}
+
+.medium-text {
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--primary-color);
 }

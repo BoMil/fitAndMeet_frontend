@@ -37,6 +37,7 @@ import { SchedulingPageComponent } from './components/pages/scheduling-page/sche
 import { SharedModule } from './_modules/shared/shared.module';
 import { PublicLayoutComponent } from './components/public-layout/public-layout.component';
 import { AppConfig } from './config/config';
+import { CoachInfoBoxComponent } from './components/coach-info-box/coach-info-box.component';
 
 const appConfig = new AppConfig();
 // const config: SocketIoConfig = { url: appConfig.setting['pathApi'], options: {} };
@@ -75,7 +76,10 @@ const appConfig = new AppConfig();
         LayoutModule,
         // SocketIoModule.forRoot(config),
         MatBadgeModule,
-        SharedModule
+        SharedModule,
+
+        // Standalone components
+        CoachInfoBoxComponent
 	],
     providers: [
         AppConfig,

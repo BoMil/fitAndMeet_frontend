@@ -1,15 +1,4 @@
 .company-info-box-container {
-    padding: 23px;
-    box-shadow: var(--cards-box-shadow);
-    border-radius: 5px;
-    margin-bottom: 10px;
-
-    .header-box {
-        margin-bottom: 20px;
-        display: grid;
-        grid-template-columns: auto 50px;
-    }
-
     .text-box {
         margin-bottom: 12px;
     }
@@ -35,7 +24,7 @@
     }
 
     .action-text {
-        color: var(--main-orange-color);
+        color: var(--secondary-color);
         font-weight: 400;
         font-size: 14px;
         text-align: end;

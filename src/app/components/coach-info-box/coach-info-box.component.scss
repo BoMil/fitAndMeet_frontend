@@ -1,0 +1,42 @@
+.coach-info-box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.3rem;
+
+    .image-container {
+        flex: 1;
+        text-align: center;
+        align-self: center;
+
+        .image {
+            border-radius: 100%;
+            width: 130px;
+        }
+    }
+
+    .content-container {
+        flex: 2;
+
+        .header-box {
+            margin-top: 1rem;
+        }
+
+        .secondary-text-box {
+            margin-top: 0.5rem;
+        }
+    }
+
+    .buttons-container {
+        margin-top: 1rem;
+
+        .heart-box {
+            margin-right: 10px;
+            height: 27px;
+        }
+
+        button {
+            margin-left: auto;
+            min-width: 164px;
+        }
+    }
+}

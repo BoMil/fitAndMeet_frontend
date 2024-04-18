@@ -20,7 +20,7 @@
 
             .tab-name {
                 font-weight: 400;
-                color: var(--main-blue-color);
+                color: var(--primary-color);
                 text-align: center;
                 font-size: 18px;
 
@@ -34,7 +34,7 @@
                 }
             }
             &.selected {
-                background-color: var(--main-blue-color);
+                background-color: var(--primary-color);
     
                 .tab-name {
                     font-weight: 600;
