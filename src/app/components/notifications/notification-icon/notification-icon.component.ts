@@ -12,6 +12,15 @@ import { WebsocketService } from 'src/app/_services/websocket-service/websocket.
         <mat-icon [matBadge]="notificationStateService.unreadNotificationsCount" matBadgeColor="warn" (click)="notificationStateService.toggleNotificationsListSidenav()">notifications_active</mat-icon>
     </span>
   `,
+  styles: [
+    `
+        .notifications-box {
+            mat-icon {
+                color: var(--primary-color);
+            }
+        }
+    `
+  ]
 })
 export class NotificationIconComponent implements OnInit, OnDestroy {
 	ngUnsubscribe = new Subject();

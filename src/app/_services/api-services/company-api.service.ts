@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RequestHandlerService } from '../request-handler.service';
-import { ICompaniesInAreaRequest } from '../../_interfaces/companies-in-area-request';
+import { IEntitiesInAreaRequest } from '../../_interfaces/entitties-in-area-request';
 import { CreateCompanyRequest } from 'src/app/_interfaces/create-company-request';
 import { AppConfig } from '../../config/config';
 
@@ -12,7 +12,7 @@ export class CompanyApiService {
 
     constructor(private requestHandlerService: RequestHandlerService, private config: AppConfig) { }
 
-    getAllCompaniesInArea(request: ICompaniesInAreaRequest) {
+    getAllCompaniesInArea(request: IEntitiesInAreaRequest) {
         return this.requestHandlerService.sendGetRequest(`${this.userApiUrl}/within-area?topLeftLat=${request.topLeftLat}&topLeftLong=${request.topLeftLong}&bottomRightLat=${request.bottomRightLat}&bottomRightLong=${request.bottomRightLong}`, null);
     }
 

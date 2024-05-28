@@ -1,13 +1,4 @@
 <div class="navigation-container">
-    <div class="left-section">
-        <div class="logo" routerLink="">
-            <mat-icon>fitbit</mat-icon>
-        </div>
-        <div *ngIf="authStateService.currentUser !== null && authStateService.currentUser?.role !== 'business_user'" class="nav-option" routerLink="scheduling">Scheduling</div>
-    </div>
-
-    <div class="brand-title">FitMe App</div>
-
     <div class="right-section">
 
         <div *ngIf="authStateService.currentUser === null" class="nav-option" (click)="signInClicked()">Sign in</div>
@@ -15,19 +6,13 @@
         <div class="user-box" *ngIf="authStateService.currentUser !== null">
             <app-notification-icon />
 
-            <img [matMenuTriggerFor]="menu" class="user-avatar" *ngIf="authStateService.currentUser?.avatar; else noUserAvatar" src="{{authStateService.currentUser?.avatar}}" alt="">
+            <img class="user-avatar" *ngIf="authStateService.currentUser?.avatar; else noUserAvatar" src="{{authStateService.currentUser?.avatar}}" alt="">
 
             <ng-template #noUserAvatar>
-                <mat-icon [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">account_circle</mat-icon>
+                <mat-icon aria-label="Example icon-button with a menu">account_circle</mat-icon>
             </ng-template>
 
-            <mat-menu #menu="matMenu">
-                <div>{{authStateService.currentUser?.first_name}}</div>
-                <button mat-menu-item (click)="logoutClicked()">
-                    <mat-icon>exit_to_app</mat-icon>
-                    <span>Logout</span>
-                </button>
-            </mat-menu>
+            <span class="user-name">{{authStateService.currentUser?.fullName}}</span>
         </div>
     </div>
 </div>

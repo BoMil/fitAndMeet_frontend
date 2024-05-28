@@ -1,0 +1,10 @@
+<div class="main-sidenav-container" [class.closed]="!opened">
+    <div class="sidenav-header">
+        <img [class.hidden]="!opened" class="header-item" src="../../../assets/svg/meetNFit.svg" alt="MeetNFit logo">
+        <img (click)="toggleSidenav()" class="header-item" src="../../../assets/svg/hamburger_menu.svg" alt="Hamburger menu">
+    </div>
+
+    <div [class.hidden]="!opened" class="main-sidenav-content">
+        <div (click)="selectNavItem(item)" *ngFor="let item of sidenavItems" class="sidenav-item" [class.selected]="item.selected">{{ item.title }}</div>
+    </div>
+</div>

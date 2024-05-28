@@ -65,7 +65,7 @@
                 </ng-container>
 
                 <ng-container *ngSwitchCase="'Treneri'">
-                    <!-- <coach-info-box [user]="authStateService.currentUser" /> -->
+                    <coach-info-box *ngFor="let user of businessUsersStateService.businessUsersInArea" [user]="user" />
                 </ng-container>
             </div>
         </div>

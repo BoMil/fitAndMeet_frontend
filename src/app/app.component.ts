@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalService } from './_services/modal.service';
 import { MapService } from './_services/map.service';
 import { CompaniesStateService } from './_global-state-services/company/companies-state.service';
+import { BuStateService } from './_global-state-services/business-user/bu-state.service';
 
 @Component({
 	selector: 'app-root',
@@ -12,6 +13,7 @@ export class AppComponent implements OnInit {
         public modalService: ModalService,
         private mapService: MapService,
         private companiesStateService: CompaniesStateService,
+        private businessUsersStateService: BuStateService,
     ) {}
 
 	ngOnInit(): void {
@@ -21,6 +23,7 @@ export class AppComponent implements OnInit {
         }
 
         this.companiesStateService.getAllCompanies();
+        this.businessUsersStateService.getAllBusinessUsers();
         this.mapService.initializeGoogleMaps();
 	}
 }

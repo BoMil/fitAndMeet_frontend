@@ -10,6 +10,8 @@ import { NotificationsStateService } from 'src/app/_global-state-services/notifi
         .app-container {
             overflow-x: hidden;
             height: 100%;
+            display: grid;
+            grid-template-columns: max-content auto;
         }
     `
     ]

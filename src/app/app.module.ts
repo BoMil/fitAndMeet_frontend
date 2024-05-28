@@ -33,11 +33,12 @@ import { NotificationCardComponent } from './components/notifications/notificati
 import { NotificationDetailsComponent } from './components/notifications/notification-details/notification-details.component';
 import { BusinessUserInfoTabComponent } from './components/pages/business-user-dashboard-page/business-user-info-tab/business-user-info-tab.component';
 import { BusinessUserScheduleTabComponent } from './components/pages/business-user-dashboard-page/business-user-schedule-tab/business-user-schedule-tab.component';
-import { SchedulingPageComponent } from './components/pages/scheduling-page/scheduling-page.component';
+import { MyCoachesPageComponent } from './components/pages/scheduling-page/my-coaches-page.component';
 import { SharedModule } from './_modules/shared/shared.module';
 import { PublicLayoutComponent } from './components/public-layout/public-layout.component';
 import { AppConfig } from './config/config';
 import { CoachInfoBoxComponent } from './components/coach-info-box/coach-info-box.component';
+import { SideNavigationComponent } from './components/side-navigation/side-navigation.component';
 
 const appConfig = new AppConfig();
 // const config: SocketIoConfig = { url: appConfig.setting['pathApi'], options: {} };
@@ -64,7 +65,7 @@ const appConfig = new AppConfig();
         NotificationDetailsComponent,
         BusinessUserInfoTabComponent,
         BusinessUserScheduleTabComponent,
-        SchedulingPageComponent,
+        MyCoachesPageComponent,
         PublicLayoutComponent,
 	],
 	imports: [
@@ -77,7 +78,7 @@ const appConfig = new AppConfig();
         // SocketIoModule.forRoot(config),
         MatBadgeModule,
         SharedModule,
-
+        SideNavigationComponent,
         // Standalone components
         CoachInfoBoxComponent
 	],

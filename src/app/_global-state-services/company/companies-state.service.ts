@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { ICompaniesInAreaRequest } from 'src/app/_interfaces/companies-in-area-request';
 import { Company } from 'src/app/_models/company';
 import { CompanyApiService } from 'src/app/_services/api-services/company-api.service';
 import { AuthStateService } from '../auth/auth-state.service';
+import { IEntitiesInAreaRequest } from '../../_interfaces/entitties-in-area-request';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +39,7 @@ export class CompaniesStateService {
         });   
     }
 
-    filterCompaniesInArea(coordinates: ICompaniesInAreaRequest | null) {
+    filterCompaniesInArea(coordinates: IEntitiesInAreaRequest | null) {
         if (!coordinates) {
             return;
         }

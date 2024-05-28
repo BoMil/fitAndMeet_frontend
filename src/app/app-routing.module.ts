@@ -4,7 +4,7 @@ import { HomePageComponent } from './components/pages/home-page/home-page.compon
 import { BusinessUserDashboardPageComponent } from './components/pages/business-user-dashboard-page/business-user-dashboard-page.component';
 import { homePageGuard } from './_route_guards/home-page.guard';
 import { businessDashboardGuard } from './_route_guards/business-dashboard.guard';
-import { SchedulingPageComponent } from './components/pages/scheduling-page/scheduling-page.component';
+import { MyCoachesPageComponent } from './components/pages/scheduling-page/my-coaches-page.component';
 import { schedulePageGuard } from './_route_guards/schedule-page.guard';
 import { PublicLayoutComponent } from './components/public-layout/public-layout.component';
 
@@ -29,9 +29,9 @@ const routes: Routes = [
                 title: 'Fitness instructor dashboard'
             },
             {
-                path: 'scheduling',
-                component: SchedulingPageComponent,
-                title: 'Schedule Page',
+                path: 'moji-treneri',
+                component: MyCoachesPageComponent,
+                title: 'Moji treneri',
                 canActivate: [schedulePageGuard],
             },
         ]

@@ -1,0 +1,46 @@
+.main-sidenav-container  {
+    padding: 24px 42px;
+    background-color: var(--primary-color);
+    height: 100%;
+    transition: all 400ms;
+
+    &.closed {
+        padding: 24px;
+        width: max-content;
+    }
+
+    .sidenav-header {
+        .header-item {
+            cursor: pointer;
+
+            &.hidden {
+                display: none;
+            }
+
+            &:first-child {
+                margin-right: 40px;
+            }
+        }
+    }
+
+    .main-sidenav-content {
+        margin-top: 50px;
+
+        &.hidden {
+            display: none;
+        }
+
+        .sidenav-item {
+            color: var(--white-primary);
+            font-size: 18px;
+            font-weight: 500;
+            font-family: 'Montserrat';
+            padding: 14px 0px;
+            cursor: pointer;
+
+            &.selected {
+                color: var(--secondary-color);
+            }
+        }
+    }
+}

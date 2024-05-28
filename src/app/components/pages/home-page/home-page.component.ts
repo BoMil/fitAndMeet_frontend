@@ -7,7 +7,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { Auth } from 'src/app/_enums/auth';
 import { RoleEnum } from 'src/app/_enums/user-role';
 import { AuthStateService } from 'src/app/_global-state-services/auth/auth-state.service';
-import { ICompaniesInAreaRequest } from 'src/app/_interfaces/companies-in-area-request';
 import { RegularTab } from 'src/app/_interfaces/regular-tab';
 import { Company } from 'src/app/_models/company';
 import { InfoBoxData } from 'src/app/_models/info-box-data';
@@ -21,6 +20,8 @@ import { WSNotificationContent } from 'src/app/_interfaces/ws-notification-conte
 import { NotificationType } from 'src/app/_enums/notification-type';
 import { CompaniesStateService } from 'src/app/_global-state-services/company/companies-state.service';
 import { CollapseItem } from 'src/app/_modules/shared/_interfaces/collapse-item';
+import { BuStateService } from '../../../_global-state-services/business-user/bu-state.service';
+import { IEntitiesInAreaRequest } from '../../../_interfaces/entitties-in-area-request';
 
 @Component({
   selector: 'app-home-page',
@@ -81,6 +82,7 @@ export class HomePageComponent implements OnInit {
         private router: Router,
         public notificationStateService: NotificationsStateService,
         public companiesStateService: CompaniesStateService,
+        public businessUsersStateService: BuStateService,
     ) {}
 
     ngOnInit(): void {
@@ -123,7 +125,9 @@ export class HomePageComponent implements OnInit {
         this.mapBoundsTimeout = setTimeout(() => {
             // console.log('onMapBoundsChanged', this.getMapCoordinates());
             this.mapBoundsTimeout = null;
-            this.companiesStateService.filterCompaniesInArea(this.getMapCoordinates());
+            const coordinates: IEntitiesInAreaRequest | null = this.getMapCoordinates();
+            this.companiesStateService.filterCompaniesInArea(coordinates);
+            this.businessUsersStateService.filterBusinessUsersInArea(coordinates);
 
             const selectedCompanyIndex = this.companiesStateService.companiesInArea.findIndex((el: Company) => el.id === this.companiesStateService.selectedCompany?.id);
 
@@ -172,7 +176,7 @@ export class HomePageComponent implements OnInit {
         );
     }
 
-    getMapCoordinates(): ICompaniesInAreaRequest | null {
+    getMapCoordinates(): IEntitiesInAreaRequest | null {
         const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 991px)');
         const bounds: google.maps.LatLngBounds | undefined = isSmallScreen ? this.mobileMap?.getBounds() : this.desktopMap?.getBounds();
         if (!bounds) {
@@ -197,13 +201,13 @@ export class HomePageComponent implements OnInit {
     }
 
     companySelectedOnMap(marker: MapMarker, windowIndex: number, company: Company) {
-        const sectionItem: CollapseItem = {
-            isOpened: true,
-            id: company.id,
-            data: company
-        }
+        // const sectionItem: CollapseItem = {
+        //     isOpened: true,
+        //     id: company.id,
+        //     data: company
+        // }
 
-        this.onCompanySectionToggled(sectionItem);
+        // this.onCompanySectionToggled(sectionItem);
 
         /// stores the current index in forEach
         let curIdx = 0;
@@ -222,43 +226,6 @@ export class HomePageComponent implements OnInit {
         this.selectedTab = selectedTab;
     }
 
-    getAllBusinessUsersByCompanyId() {
-        if(!this.companiesStateService.selectedCompany) {
-            return;
-        }
-        const request: GetAllUsersByCompanyRequest = {
-            companyId: this.companiesStateService.selectedCompany.id,
-            endUserId: this.authStateService.currentUser?.id || null
-        }
-
-        this.carouselItems = [];
-
-        this.userApiService.getAllBusinessUsersByCompanyId(request).subscribe({
-            next: (data) => {
-                for (let index = 0; index < data.length; index++) {
-                    const user: User = new User(data[index]);
-
-                    const carouselItem: InfoBoxData = new InfoBoxData({
-                        review: user.review,
-                        name: user.first_name,
-                        lastName: user.last_name,
-                        userName: user.user_name,
-                        avatar: user.avatar,
-                        email: user.email,
-                        userId: user.id,
-                        isButtonsVisible: this.authStateService.currentUser ? true : false,
-                        isOpenBUDashboardButtonVisible: user.followingStatus === FollowingStatus.FOLLOWING,
-                    });
-                    this.carouselItems.push(carouselItem);
-                }
-            },
-            error: (err) => {
-                this.toastr.error('Failed to get coaches');
-                console.log('getAllBusinessUsersByCompanyId', err);
-            }
-        }); 
-    }
-
     listenWhenUserNotificationsArrived() {
         if (!this.authStateService.currentUser) {
             return;
@@ -270,7 +237,7 @@ export class HomePageComponent implements OnInit {
                     // If business user accept follow request then reload business users
                     // to hide follow and show schedule training button in the user info card
                     if (notification.type === NotificationType.FOLLOW_REQUEST_ACCEPTED) {
-                        this.getAllBusinessUsersByCompanyId();
+                        // this.getAllBusinessUsersByCompanyId();
                         // Fetch companies to see their following status on the map
                         this.companiesStateService.getAllCompanies();
                     }
@@ -282,16 +249,5 @@ export class HomePageComponent implements OnInit {
     unsubscribeFromNotifications() {
 		this.ngUnsubscribeNotifications.next(null);
 		this.ngUnsubscribeNotifications.complete();
-    }
-
-    onCompanySectionToggled(sectionItem: CollapseItem) {
-        this.selectedSection = sectionItem;
-        if (sectionItem.isOpened) {
-            this.companiesStateService.selectedCompany = sectionItem.data;
-        } else {
-            this.companiesStateService.selectedCompany = null;
-            this.carouselItems = [];
-        }
-        this.getAllBusinessUsersByCompanyId();
     }
 }

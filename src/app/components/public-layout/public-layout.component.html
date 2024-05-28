@@ -1,11 +1,16 @@
 <div class="app-container">
-    <app-header-navigation  />
+    <side-navigation />
 
     <mat-drawer-container >
+
         <mat-drawer #drawer class="notifications-sidenav" mode="over" position="end">
             <app-notifications-list *ngIf="drawer.opened" />
         </mat-drawer>
 
-        <router-outlet></router-outlet>
+        <mat-drawer-content>
+            <app-header-navigation  />
+
+            <router-outlet></router-outlet>
+        </mat-drawer-content>
     </mat-drawer-container>
 </div>

@@ -1,4 +1,4 @@
-export interface ICompaniesInAreaRequest {
+export interface IEntitiesInAreaRequest {
     topLeftLat: number;
     topLeftLong: number;
     bottomRightLat: number;

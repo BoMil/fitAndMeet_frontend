@@ -1,13 +1,7 @@
 .navigation-container {
-    // margin-bottom: 2rem;
     border-bottom: 1px solid var(--border-input-color);
-    padding: 10px;
-    display: grid;
-    grid-template-columns: auto auto auto;
-    position: fixed;
-    z-index: 2;
+    padding: 20px 23px;
     background-color: white;
-    width: 100%;
 
     .nav-option {
         cursor: pointer;
@@ -25,12 +19,10 @@
     }
 
     .right-section {
-        margin-left: auto;
         width: max-content;
-
+        margin-left: auto;
         .user-box {
             cursor: pointer;
-            padding-top: 14px;
 
             mat-icon {
                 margin-left: 18px;
@@ -41,8 +33,18 @@
                 border-radius: 50%;
                 height: 34px;
                 width: 34px;
-                margin-left: 18px;
+                margin-left: 26px;
+                vertical-align: bottom;
             }
+        }
+
+        .user-name {
+            color: var(--primary-color);
+            font-size: 18px;
+            font-weight: 600;
+            font-family: 'Montserrat';
+            vertical-align: super;
+            margin-left: 10px;
         }
     }
 
@@ -50,17 +52,5 @@
         margin: auto;
         font-weight: 700;
         font-size: 24px;
-    }
-
-    .logo {
-        cursor: pointer;
-        display: inline-block;
-        position: relative;
-        width: 32px;
-
-        mat-icon {
-            position: absolute;
-            bottom: -8px;
-        }
     }
 }
