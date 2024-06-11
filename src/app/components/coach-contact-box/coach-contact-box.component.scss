@@ -1,0 +1,42 @@
+.coach-contact-box-container {
+    .image-container {
+        flex: 1;
+        text-align: center;
+        align-self: center;
+
+        .image {
+            border-radius: 100%;
+            width: 130px;
+        }
+    }
+
+    .content-container {
+        text-align: center;
+
+        .header-box {
+            display: block;
+            margin-top: 1rem;
+        }
+
+        .secondary-text-box {
+            margin-top: 0.5rem;
+        }
+
+        .stars-container {
+            display: block;
+        }
+    }
+
+    .buttons-container {
+        margin-top: 1rem;
+
+        .heart-box {
+            margin-right: 10px;
+            height: 27px;
+        }
+
+        button {
+            min-width: 164px;
+        }
+    }
+}

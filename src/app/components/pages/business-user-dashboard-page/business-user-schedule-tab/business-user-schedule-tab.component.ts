@@ -23,7 +23,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NotificationsStateService } from '../../../../_global-state-services/notifications/notifications-state.service';
 import { WSNotificationContent } from '../../../../_interfaces/ws-notification-content';
 import { NotificationType } from '../../../../_enums/notification-type';
-
+// TODO: REMOVE THIS COMPONENT
 @Component({
   selector: 'app-business-user-schedule-tab',
   templateUrl: './business-user-schedule-tab.component.html',

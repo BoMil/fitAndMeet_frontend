@@ -1,13 +1,6 @@
 <div class="scheduler-container">
     <div class="calendar-container">
-        <!-- <div class="user-info">
-            <span>
-                <mat-icon class="account-icon grey" *ngIf="!buDashboardStateService.currentDashboardBusinessUser?.avatar" >account_circle</mat-icon>
-            </span>
-            {{ buDashboardStateService.currentDashboardBusinessUser?.fullName }} calendar
-        </div> -->
-
-        <!-- <full-calendar #calendar [options]="calendarOptions">
+        <full-calendar #calendar [options]="calendarOptions">
             <ng-template #eventContent let-arg>
                 <div class="cal-event" [ngClass]="{
                     available: arg.event.extendedProps?.status === 'available',
@@ -28,20 +21,30 @@
                     </i>
                 </div>
             </ng-template>
-        </full-calendar> -->
-
-        <div class="legend">
-            <app-events-legend />
-        </div>
+        </full-calendar>
     </div>
 
     <div class="events-container">
-        <h2>Events for a selected day</h2>
-        <div class="event-item" *ngFor="let event of buDashboardStateService.selectedDayEvents">
-            <app-event-box
-                (bookEvent)="bookEvent($event)"
-                [data]="event"
-                [isEndUser]="authStateService.currentUser?.role === role.END_USER" />
+        <div class="title">Moji izabrani treneri</div>
+
+        <div class="navigation-wraper">
+            <div class="keen-slider keen-slider--vertical" #sliderRef>
+                <ng-container *ngFor="let user of buDashboardStateService.allDashboardBusinessUsers">
+                    <div class="keen-slider__slide slide-item" >
+                        <coach-contact-box [user]="user" />
+                    </div>
+                </ng-container>
+            </div>
+    
+            <ng-container *ngIf="buDashboardStateService.allDashboardBusinessUsers.length > 1" >
+                <img *ngIf="slider" (click)="slider?.prev()"
+                    [ngClass]="'arrow arrow--left ' + (currentSlide === 0 ? 'arrow--disabled' : '')"
+                    src="../../../../assets/svg/slider_left.svg" alt="Edit">
+
+                <img *ngIf="slider" (click)="slider?.next()"
+                    [ngClass]="'arrow arrow--right ' + (slider?.track?.details?.slides && slider.track.details.slides.length - 1 === currentSlide ? 'arrow--disabled' : '')"
+                    src="../../../../assets/svg/slider_right.svg" alt="Edit">
+            </ng-container>
         </div>
 
         <div *ngIf="!buDashboardStateService.selectedDayEvents.length" class="no-data-msg">No events for current date</div>

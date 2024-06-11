@@ -1,0 +1,23 @@
+<div class="coach-contact-box-container card-box">
+    <div class="image-container">
+        <img class="image" src="{{ user?.avatar ? user?.avatar : defaultImage }}" alt="Fitness image">
+
+    </div>
+
+    <div class="content-container">
+        <div class="header-box">
+            <div class="text">
+                <span class="bold-text">{{ user?.fullName }}</span>
+                <div class="stars-container">
+                    <img *ngFor="let item of [1,2,3,4,5]" src="../../../assets/svg/star_{{item <= reviewScore ? 'orange' : 'grey'}}.svg" alt="Star">
+                </div>
+            </div>
+        </div>
+
+        <div class="text-box">Teretana - Aerobik - Funkcionalni trening - Zumba Vođeni treninzi</div>
+
+        <div class="buttons-container align-center">
+            <button class="button orange">Profil trenera</button>
+        </div>
+    </div>
+</div>

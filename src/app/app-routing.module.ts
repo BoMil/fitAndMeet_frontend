@@ -4,9 +4,9 @@ import { HomePageComponent } from './components/pages/home-page/home-page.compon
 import { BusinessUserDashboardPageComponent } from './components/pages/business-user-dashboard-page/business-user-dashboard-page.component';
 import { homePageGuard } from './_route_guards/home-page.guard';
 import { businessDashboardGuard } from './_route_guards/business-dashboard.guard';
-import { MyCoachesPageComponent } from './components/pages/scheduling-page/my-coaches-page.component';
 import { schedulePageGuard } from './_route_guards/schedule-page.guard';
 import { PublicLayoutComponent } from './components/public-layout/public-layout.component';
+import { MyCoachesPageComponent } from './components/pages/my-coaches-page/my-coaches-page.component';
 
 // TODO: Add a lazy loaded routes for business users views
 const routes: Routes = [
@@ -30,7 +30,7 @@ const routes: Routes = [
             },
             {
                 path: 'moji-treneri',
-                component: MyCoachesPageComponent,
+                loadComponent: () => import('./components/pages/my-coaches-page/my-coaches-page.component').then(n => n.MyCoachesPageComponent),
                 title: 'Moji treneri',
                 canActivate: [schedulePageGuard],
             },

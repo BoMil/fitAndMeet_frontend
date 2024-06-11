@@ -1,0 +1,56 @@
+  .sidebar-calendar {
+    .fc {
+        max-width: 300px;
+        margin: 0 auto; 
+    }
+  }
+
+  .scheduler-container {
+    display: grid;
+    grid-template-columns: 70% 30%;
+
+    .calendar-container {
+        padding: 1rem 1rem 1rem;
+
+        &.not-allowed {
+            cursor: not-allowed;
+        }
+    }
+
+    .events-container {
+        position: relative;
+        margin-right: 0.5rem;
+
+        .title {
+            text-align: center;
+            color: var(--calendar-text);
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 18px;
+        }
+
+        .event-item {
+            margin-top: 10px;
+        }
+
+        .no-data-msg {
+            text-align: center;
+            color: var(--carousel-icon-color);
+            // position: absolute;
+        }
+    }
+  }
+
+  @media only screen and (max-width: 920px) {
+    .scheduler-container {
+       grid-template-columns: auto;
+
+       .calendar-container {
+            grid-template-columns: auto;
+       }
+
+       .events-container {
+            margin-left: 0px;
+        }
+    }
+}

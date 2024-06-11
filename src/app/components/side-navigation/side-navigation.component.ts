@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthStateService } from '../../_global-state-services/auth/auth-state.service';
 import { Auth } from '../../_enums/auth';
 import { RoleEnum } from '../../_enums/user-role';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'side-navigation',
@@ -22,6 +23,8 @@ export class SideNavigationComponent implements OnInit {
             selected: true
         }
     ];
+	ngUnsubscribe = new Subject();
+
 
     constructor(
         private router: Router,
@@ -30,6 +33,7 @@ export class SideNavigationComponent implements OnInit {
 
     ngOnInit(): void {
         this.initializeSidenavNavigation();
+        this.listenAuthStateChanges();
     }
 
     toggleSidenav() {
@@ -97,5 +101,16 @@ export class SideNavigationComponent implements OnInit {
                 }
             ]
         }
+    }
+
+    listenAuthStateChanges() {
+        // Listen when user login/logout
+        this.authStateService.authStateChanged.pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+            {
+                next: (state: Auth) => {
+                    this.initializeSidenavNavigation();
+                }
+            }
+        );
     }
 }

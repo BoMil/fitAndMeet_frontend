@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { GetAllFollowedBuRequest } from 'src/app/_interfaces/get-all-followed-bu-request';
 import { EventModel } from 'src/app/_models/event';
 import { User } from 'src/app/_models/user';
@@ -14,6 +15,7 @@ export class BuDashboardStateService {
     currentDashboardBusinessUser!: User | null;
     allDashboardBusinessUsers: User[] = []
     mainState: StateTypes = 'LOADING';
+    usersAreFetched: Subject<any> = new Subject();
 
     // Events
 	allEvents: EventModel[] = [];
@@ -54,6 +56,7 @@ export class BuDashboardStateService {
                 this.allDashboardBusinessUsers.push(user);
                 // this.allDashboardBusinessUsers.push(user);
             }
+            this.usersAreFetched.next(true);
             this.currentDashboardBusinessUser = this.allDashboardBusinessUsers.length ? this.allDashboardBusinessUsers[0] : null;
             this.mainState = 'LOADED';
         },

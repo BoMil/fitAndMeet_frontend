@@ -1,15 +1,18 @@
 .slide-item {
-  display: flex;
-  align-items: center;
   justify-content: center;
   font-weight: 500;
-  height: 100px;
+  padding: 0.8rem
 }
 
 .navigation-wraper {
-    width: 40rem;
     position: relative;
     margin: auto;
+
+    .keen-slider  {
+        &.keen-slider--vertical {
+            height: 100%;
+        }
+    }
 }
 
 .dots {
@@ -49,14 +52,16 @@
 }
 
 .arrow--left {
-  left: 5px;
+  left: 16px;
+  top: 100px;
 }
 
 .arrow--right {
   left: auto;
-  right: 5px;
+  right: 16px;
+  top: 100px;
 }
 
 .arrow--disabled {
-  fill: rgba(255, 255, 255, 0.5);
+    opacity: 0.4;
 }

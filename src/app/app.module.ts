@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FullCalendarModule } from '@fullcalendar/angular';
 
 // Angular material modules
 import { MatMenuModule } from '@angular/material/menu';
@@ -71,7 +70,6 @@ const appConfig = new AppConfig();
 	imports: [
 		BrowserModule,
 		AppRoutingModule,
-		FullCalendarModule,
 		BrowserAnimationsModule,
 		MatMenuModule,
         LayoutModule,
@@ -80,7 +78,7 @@ const appConfig = new AppConfig();
         SharedModule,
         SideNavigationComponent,
         // Standalone components
-        CoachInfoBoxComponent
+        CoachInfoBoxComponent,
 	],
     providers: [
         AppConfig,

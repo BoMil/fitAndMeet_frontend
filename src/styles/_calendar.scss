@@ -1,0 +1,69 @@
+.fc { /* the calendar root */
+
+    ::ng-deep {
+        .fc-daygrid-body {
+            z-index: 1 !important;
+        }
+
+        th[role="columnheader"] {
+            padding: 2rem 1rem;
+            color: var(--calendar-text);
+            vertical-align: middle;
+        }
+
+        .fc-timegrid-slot-label {
+            padding: 2rem 1rem;
+            color: var(--calendar-text);
+        }
+
+        .fc-timegrid-slot-label-frame {
+            text-align: center;  
+        }
+
+        .fc-v-event {
+            background-color: transparent !important;
+            border: none !important;
+        }
+
+        .pending {
+            background-color: var(--event-pending);
+            color: white;
+        }
+
+        .accepted {
+            background-color: var(--event-accepted);
+            color: white;
+        }
+
+        .declined {
+            background-color: var(--event-declined);
+            color: white;
+        }
+
+        .available {
+            background-color: var(--event-available);
+            color: white;
+        }
+
+        .unavailable {
+            background-color: var(--event-unavailable);
+            color: white;
+        }
+
+        .cal-event {
+            overflow: hidden;
+            border-radius: 4px;
+
+            .cal-event-time {
+                padding: 0.2rem 0 0.2rem 0.2rem;
+                cursor: pointer;
+            }
+    
+            .cal-event-title {
+                padding: 0.2rem 0.2rem 0.2rem 0;
+
+                cursor: pointer;
+            }
+        }
+    }
+}
