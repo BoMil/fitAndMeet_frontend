@@ -1,19 +1,33 @@
 .fc { /* the calendar root */
 
     ::ng-deep {
+        overflow: scroll;
+
         .fc-daygrid-body {
             z-index: 1 !important;
         }
 
+        .fc-view-harness {
+            min-width: 1000px !important;
+        }
+
+        .fc-scrollgrid-sync-table, .fc-col-header, .fc-timegrid-body  {
+            min-width: 1000px !important;
+
+            table {
+                min-width: 1000px !important;
+            }
+        }
+
         th[role="columnheader"] {
             padding: 2rem 1rem;
-            color: var(--calendar-text);
+            color: var(--text-grey-primary);
             vertical-align: middle;
         }
 
         .fc-timegrid-slot-label {
             padding: 2rem 1rem;
-            color: var(--calendar-text);
+            color: var(--text-grey-primary);
         }
 
         .fc-timegrid-slot-label-frame {
@@ -65,5 +79,32 @@
                 cursor: pointer;
             }
         }
+
+        .fc-toolbar-title {
+            color: var(--text-grey-primary);
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 24px;
+        }
+
+        .fc-toolbar-chunk {
+            button {
+                color: var(--text-grey-primary);
+                background-color: white;
+                font-size: 16px;
+                box-shadow: var(--cards-box-shadow);
+                border: none;
+            }
+
+            .fc-today-button, .fc-button {
+                padding: 0.5rem 1.6rem;
+            }
+        }
+
+       .fc-button-primary:not(:disabled).fc-button-active, .fc-button-primary:not(:disabled):active {
+            background-color: white;
+            color: var(--text-grey-primary);
+        }
+
     }
 }

@@ -23,7 +23,7 @@
         }
     }
 
-    .main-sidenav-content {
+    .main-sidenav-content, .bottom-sidenav {
         margin-top: 50px;
 
         &.hidden {
@@ -34,7 +34,7 @@
             color: var(--white-primary);
             font-size: 18px;
             font-weight: 500;
-            font-family: 'Montserrat';
+            // font-family: 'Montserrat';
             padding: 14px 0px;
             cursor: pointer;
 
@@ -42,5 +42,10 @@
                 color: var(--secondary-color);
             }
         }
+    }
+
+    .bottom-sidenav {
+        position: absolute;
+        bottom: 2rem;
     }
 }

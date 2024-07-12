@@ -20,7 +20,6 @@ import { CustomCarouselComponent } from './common/custom-carousel/custom-carouse
 import { InfoBoxComponent } from './components/info-box/info-box.component';
 import {LayoutModule} from '@angular/cdk/layout';
 import { EventsLegendComponent } from './components/pages/business-user-dashboard-page/events-legend/events-legend.component';
-import { EventBoxComponent } from './components/pages/business-user-dashboard-page/event-box/event-box.component';
 import { HttpInterceptorService } from './_helpers/interceptor';
 import { RegularTabsComponent } from './components/regular-tabs/regular-tabs.component';
 import { CompanyInfoBoxComponent } from './components/company-info-box/company-info-box.component';
@@ -38,6 +37,7 @@ import { PublicLayoutComponent } from './components/public-layout/public-layout.
 import { AppConfig } from './config/config';
 import { CoachInfoBoxComponent } from './components/coach-info-box/coach-info-box.component';
 import { SideNavigationComponent } from './components/side-navigation/side-navigation.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 const appConfig = new AppConfig();
 // const config: SocketIoConfig = { url: appConfig.setting['pathApi'], options: {} };
@@ -54,7 +54,6 @@ const appConfig = new AppConfig();
         CustomCarouselComponent,
         InfoBoxComponent,
         EventsLegendComponent,
-        EventBoxComponent,
         RegularTabsComponent,
         CompanyInfoBoxComponent,
         BusinessUserDashboardPageComponent,
@@ -76,6 +75,7 @@ const appConfig = new AppConfig();
         // SocketIoModule.forRoot(config),
         MatBadgeModule,
         SharedModule,
+        FullCalendarModule,
         SideNavigationComponent,
         // Standalone components
         CoachInfoBoxComponent,

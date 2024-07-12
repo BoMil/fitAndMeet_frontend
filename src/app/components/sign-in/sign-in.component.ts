@@ -164,7 +164,7 @@ export class SignInComponent implements OnInit, OnDestroy {
 
                 // If user already followed someone (coaches) then redirect him to schedule page
                 if (this.authStateService.currentUser?.following.length) {
-                    this.router.navigateByUrl(`/scheduling`);
+                    this.router.navigateByUrl(`/moji-treneri`);
                 }
 				this.closeModal();
 			},

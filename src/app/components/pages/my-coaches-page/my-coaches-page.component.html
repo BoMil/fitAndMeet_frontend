@@ -47,6 +47,16 @@
             </ng-container>
         </div>
 
+    <div class="events-container">
+
+        <div class="event-item" *ngFor="let event of buDashboardStateService.selectedDayEvents">
+            <app-event-box
+                (bookEvent)="bookEvent($event)"
+                [data]="event"
+                [isEndUser]="authStateService.currentUser?.role === role.END_USER" />
+        </div>
+    </div>
+
         <div *ngIf="!buDashboardStateService.selectedDayEvents.length" class="no-data-msg">No events for current date</div>
     </div>
 </div>

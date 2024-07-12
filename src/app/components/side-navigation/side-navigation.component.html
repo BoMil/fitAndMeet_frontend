@@ -7,4 +7,8 @@
     <div [class.hidden]="!opened" class="main-sidenav-content">
         <div (click)="selectNavItem(item)" *ngFor="let item of sidenavItems" class="sidenav-item" [class.selected]="item.selected">{{ item.title }}</div>
     </div>
+
+    <div *ngIf="authStateService.currentUser" [class.hidden]="!opened" class="bottom-sidenav">
+        <div class="sidenav-item" (click)="authStateService.logoutUser()">Logout</div>
+    </div>
 </div>

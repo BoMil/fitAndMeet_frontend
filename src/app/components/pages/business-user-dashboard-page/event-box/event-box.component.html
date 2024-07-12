@@ -9,26 +9,84 @@
 
     <div class="time-box">
         <div class="date">
-            <span class="label">From: </span> <span class="value">{{ data.start_at | date : 'medium'}}</span>
+            <span class="value">{{ data.start_at | date : 'EEEE, MMMM d'}}</span> <span class="dot"></span> <span class="value">{{ data.start_at | date : 'h:mm'}} - {{ data.end_at | date : 'h:mm'}}</span>
         </div>
-        <div class="date">
-            <span class="label">To: </span> <span class="value">{{ data.end_at | date : 'medium'}}</span>
+
+        <div *ngIf="data?.sortedEventUsers?.pendingUsers?.length || data?.sortedEventUsers?.acceptedUsers?.length" class="users-info">
+            <div class="status-info">
+                <ng-container *ngIf="!isEndUser">
+                    <ng-container *ngFor="let pendingUser of data.sortedEventUsers.pendingUsers; let i = index; let last = last; let first = first;">
+                        <div class="avatar-section">
+                            <avatar-image [imgSrc]="pendingUser.userAvatar"/>
+                        </div>
+    
+                        <div class="content-section padding-left">
+                            <div>
+                                <span class="label">{{ pendingUser.userFullName }} </span>
+                            </div>
+    
+                            <span class="label">Status: </span><span class="status pending">{{ pendingUser.statusText }}</span>
+                        </div>
+    
+                        <div class="action-section buttons-container">
+                            <div class="button close">
+                                <img src="../../../../../assets/svg/close.svg" alt="close icon">
+                            </div>
+    
+                            <div class="button check">
+                                <img src="../../../../../assets/svg/check.svg" alt="check icon">
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </div>
+
+            <ng-container *ngIf="isEndUser">
+                <div class="status-info-secondary">
+                    <div class="avatars-box">
+                        <multiple-avatars [avatarUrls]="pendingAvatars" />
+                    </div>
+
+                    <div class="content-section">
+                        <div class="names">
+                            <ng-container *ngFor="let pendingUser of data.sortedEventUsers.pendingUsers;let i = index; let last = last; let first = first;">
+                                {{ pendingUser.userFullName }}<ng-container *ngIf="!(first && last) && !last" >,</ng-container>
+                            </ng-container>
+                        </div>
+
+                        <span class="label">Status: </span><span class="status pending">Na čekanju</span>
+                    </div>
+                </div>
+            </ng-container>
+
+            <div *ngIf="data?.sortedEventUsers?.acceptedUsers?.length" class="status-info-secondary">
+                <div class="avatars-box">
+                    <multiple-avatars [avatarUrls]="acceptedAvatars" />
+                </div>
+
+                <div class="content-section">
+                    <div class="names">
+                        <ng-container *ngFor="let acceptedUser of data.sortedEventUsers.acceptedUsers;let i = index; let last = last; let first = first;">
+                            {{ acceptedUser.userFullName }}<ng-container *ngIf="!(first && last) && !last" >,</ng-container>
+                        </ng-container>
+                    </div>
+
+                    <span class="label">Status: </span><span class="status accepted">Potvrđeno</span>
+                </div>
+            </div>
         </div>
-        <div class="date">
-            <span class="label">Number of attendees: </span> <span class="value">{{ data.numberOfAttendees }} / <span class="count-accepted">{{ data.ecceptedAttendees }}</span></span>
+
+        <div class="attendees-num">
+            <img src="../../../../../assets/svg/user.svg" alt="User icon">
+            <span class="attendees-value">{{ data.ecceptedAttendees }} / {{ data.numberOfAttendees }}</span>
+        </div>
+
+        <div *ngIf="data.userStatus === 'available'" class="status-section">
+            <span class="label">Status: </span><span class="status available">Dostupan termin</span>
         </div>
     </div>
 
-    <div class="buttons-container" *ngIf="data.userStatus === 'available' && isEndUser">
-        <button class="button regular--medium" (click)="bookEvent.emit(data)">Book event</button>
-    </div>
-
-    <div class="clock">
-        <mat-icon [ngClass]="{
-            unavailable: data.userStatus === 'unavailable',
-            pending: data.userStatus === 'pending',
-            accepted: data.userStatus === 'accepted',
-            declined: data.userStatus === 'declined',
-            available: data.userStatus === 'available'}">access_time</mat-icon>
+    <div class="buttons-container bottom" *ngIf="data.userStatus === 'available' && isEndUser">
+        <button class="button full-width regular--medium" (click)="bookEvent.emit(data)">Zakaži termin</button>
     </div>
 </div>

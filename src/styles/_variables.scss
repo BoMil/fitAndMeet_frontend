@@ -23,15 +23,15 @@
     --white-color: #FAFAFA;
     --text-grey-primary: #949494;
     --white-primary: #FFFFFF;
-    --calendar-text: #949494;
+    --darker-blue: #0832584D;
 
 
     // Event status colors
-    --event-pending: #ef9226;
-    --event-accepted: #0099ff;
+    --event-pending: var(--secondary-color);
+    --event-accepted: #2BD63C;
     --event-declined: #da060a;
-    --event-available: #62e207;
-    --event-unavailable: #c6cbd4;
+    --event-available: #0099ff;
+    --event-unavailable: #D9D9D9;
 
     // RGBA colors
     --rgba-black-007: rgba(0, 0, 0, 0.07);

@@ -24,11 +24,12 @@ export class SideNavigationComponent implements OnInit {
         }
     ];
 	ngUnsubscribe = new Subject();
+	private navigationLocalStorageKey: string = 'selectedMenu';
 
 
     constructor(
         private router: Router,
-        private authStateService: AuthStateService
+        public authStateService: AuthStateService
     ) {}
 
     ngOnInit(): void {
@@ -53,43 +54,47 @@ export class SideNavigationComponent implements OnInit {
 
         switch (item.title) {
             case 'Mapa':
+                localStorage.setItem(this.navigationLocalStorageKey, 'Mapa');
                 this.router.navigateByUrl('');
                 break;
             case 'Moj raspored':
-            
-            break;
+                localStorage.setItem(this.navigationLocalStorageKey, 'Moj raspored');
+                break;
             case 'Moji treneri':
+                localStorage.setItem(this.navigationLocalStorageKey, 'Moji treneri');
                 this.router.navigateByUrl(`/moji-treneri`);
         }
 
     }
 
     initializeSidenavNavigation() {
+        let selectedItem: string | null = localStorage.getItem(this.navigationLocalStorageKey);
+
         if (this.authStateService.state === Auth.AUTHENTICATED) {
             if (this.authStateService.currentUser?.role === RoleEnum.END_USER) {
                 this.sidenavItems = [
                     {
                         title: 'Mapa',
-                        selected: true
+                        selected: selectedItem ? (selectedItem === 'Mapa' ? true : false) : true
                     },
                     {
                         title: 'Moj raspored',
-                        selected: false
+                        selected: selectedItem ? (selectedItem === 'Moj raspored' ? true : false) : false
                     },
                     {
                         title: 'Moji treneri',
-                        selected: false
+                        selected: selectedItem ? (selectedItem === 'Moji treneri' ? true : false) : false
                     },
                 ];
             } else {
                 this.sidenavItems = [
                     {
                         title: 'Mapa',
-                        selected: true
+                        selected: selectedItem ? (selectedItem === 'Mapa' ? true : false) : true
                     },
                     {
                         title: 'Moj raspored',
-                        selected: false
+                        selected: selectedItem ? (selectedItem === 'Moj raspored' ? true : false) : false
                     },
                 ];
             }
@@ -108,9 +113,25 @@ export class SideNavigationComponent implements OnInit {
         this.authStateService.authStateChanged.pipe(takeUntil(this.ngUnsubscribe)).subscribe(
             {
                 next: (state: Auth) => {
+                    this.initSidenavOnAuthChange();
                     this.initializeSidenavNavigation();
                 }
             }
         );
     }
+
+    initSidenavOnAuthChange() {
+        switch (this.authStateService.state) {
+            case Auth.UNAUTHENTICATED:
+                localStorage.setItem(this.navigationLocalStorageKey, 'Mapa');
+                break;
+            case Auth.AUTHENTICATED:
+                if (this.authStateService.currentUser?.role === RoleEnum.END_USER) {
+                    localStorage.setItem(this.navigationLocalStorageKey, 'Moji treneri');
+                } else {
+                    localStorage.setItem(this.navigationLocalStorageKey, 'Moj raspored');
+                }
+        }
+    }
+
 }

@@ -7,7 +7,8 @@
             {{ buDashboardStateService.currentDashboardBusinessUser?.fullName }} calendar
         </div> -->
 
-        <!-- <full-calendar #calendar [options]="calendarOptions">
+        <!-- TODO: Remove this -->
+        <full-calendar #calendar [options]="calendarOptions">
             <ng-template #eventContent let-arg>
                 <div class="cal-event" [ngClass]="{
                     available: arg.event.extendedProps?.status === 'available',
@@ -28,7 +29,7 @@
                     </i>
                 </div>
             </ng-template>
-        </full-calendar> -->
+        </full-calendar>
 
         <div class="legend">
             <app-events-legend />
@@ -38,10 +39,10 @@
     <div class="events-container">
         <h2>Events for a selected day</h2>
         <div class="event-item" *ngFor="let event of buDashboardStateService.selectedDayEvents">
-            <app-event-box
+            <!-- <app-event-box
                 (bookEvent)="bookEvent($event)"
                 [data]="event"
-                [isEndUser]="authStateService.currentUser?.role === role.END_USER" />
+                [isEndUser]="authStateService.currentUser?.role === role.END_USER" /> -->
         </div>
 
         <div *ngIf="!buDashboardStateService.selectedDayEvents.length" class="no-data-msg">No events for current date</div>

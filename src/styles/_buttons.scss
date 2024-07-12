@@ -34,8 +34,9 @@
 
     &.regular--medium {
         color: white;
-        background-color: var(--primary-color);
-        padding: 6px 18px 6px 18px;
+        background-color: var(--event-available);
+        padding: 12px 18px 12px 18px;
+        border-radius: 5px;
     }
 
     &.remove {
@@ -79,5 +80,17 @@
         font-size: 14px;
         font-weight: 600;
         background-color: var(--secondary-color);
+    }
+
+    &.close {
+        background-color: #E23C3C;
+        padding: 4px 26px;
+        height: 22px;
+    }
+
+    &.check {
+        background-color: var(--event-accepted);
+        padding: 2px 26px 4px;
+        height: 22px;
     }
 }

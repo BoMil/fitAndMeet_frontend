@@ -1,74 +1,73 @@
 .event-box-container {
-    padding: 1rem;
+    padding: 28px;
     position: relative;
-    border-radius: 4px;
-    box-shadow: rgb(0 0 0 / 21%) 0px 5px 15px;
+    border-radius: 5px;
+    box-shadow: var(--cards-box-shadow);
+    border-left: 9px transparent;
+    background-color: white;
 
     &.pending {
-        background-color: var(--rgba-event-pending-bg);
+        border-left: 9px solid var(--event-pending);
     }
 
     &.accepted {
-        background-color: var(--rgba-event-accepted-bg);
+        border-left: 9px solid var(--event-accepted);
     }
 
     &.declined {
-        background-color: var(--rgba-event-declined-bg);
+        border-left: 9px solid var(--event-declined);
     }
 
     &.available {
-        background-color: var(--rgba-event-available-bg);
+        border-left: 9px solid var(--event-available);
     }
 
     &.unavailable {
-        background-color: var(--rgba-event-unavailable-bg);
+        border-left: 9px solid var(--event-unavailable);
     }
 
-
     .title-box {
-        font-size: 15px;
-        font-weight: 500;
+        font-size: 17px;
+        font-weight: 700;
         margin-bottom: 5px;
+        color: var(--primary-color);
     }
 
     .time-box {
-        margin-bottom: 8px;
+        margin-bottom: 12px;
 
         .date {
-            font-weight: 500;
-
-            .label {
-                color: var(--placeholder-primary-color);
-            }
-
-            .value {
-                font-size: 12px;
-            }
+            font-weight: 400;
+            color: var(--text-grey-primary);
+            font-size: 13px;
 
             .count-accepted {
                 color: var(--event-accepted);
             }
+
+            .dot {
+                height: 4px;
+                width: 4px;
+                display: inline-block;
+                background-color: var(--text-grey-primary);
+                border-radius: 50%;
+                margin: 0px 4px 2px 4px;
+            }
         }
-    }
 
-    .clock {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-
-        mat-icon {
+        .status {
             &.pending {
                 color: var(--event-pending);
             }
-    
+
             &.accepted {
                 color: var(--event-accepted);
             }
-    
+
             &.declined {
                 color: var(--event-declined);
             }
-    
+
             &.available {
                 color: var(--event-available);
             }
@@ -76,6 +75,103 @@
             &.unavailable {
                 color: var(--event-unavailable);
             }
+        }
+
+        .status-section {
+            margin-top: 10px;
+        }
+
+        .label {
+            color: var(--text-grey-primary);
+        }
+
+        .users-info {
+            margin: 20px 0px;
+
+            .status-info-secondary {
+                display: flex;
+
+                &:nth-child(1) {
+                    margin-top: 20px;
+                }
+    
+                .avatars-box {
+                    width: 80px;
+                    min-width: 70px;
+                }
+    
+                .names {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    color: var(--text-grey-primary);
+
+                }
+            }
+
+            .status-info {
+                font-size: 13px;
+                font-weight: 400;
+                line-height: 18px;
+                text-align: left;
+                display: grid;
+                grid-template-columns: min-content max-content auto;
+                row-gap: 20px;
+
+                &:nth-child(1) {
+                    margin-top: 20px;
+                }
+
+                .avatar-section {
+                    margin-right: 25px;
+                    align-self: center;
+                }
+
+                .action-section {
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    align-items: end;
+                    margin-left: auto;
+                    padding-left: 10px;
+                }
+            }
+
+            .content-section {
+                align-self: center;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+
+                &.padding-left {
+                    padding-left: 8px;
+                }
+
+                .label {
+                    color: var(--text-grey-primary);
+                    line-height: 20px;
+                }
+            }
+        }
+
+        .attendees-num {
+            border-radius: 5px;
+            border: 1px solid var(--darker-blue);
+            color: var(--darker-blue);
+            width: max-content;
+            padding: 6px 12px;
+            margin-top: 24px;
+
+            .attendees-value {
+                vertical-align: text-bottom;
+                margin-left: 8px;
+                color: var(--primary-color);
+            
+            }
+        }
+    }
+
+    .buttons-container {
+        &.bottom {
+            margin-top: 10px;
         }
     }
 }

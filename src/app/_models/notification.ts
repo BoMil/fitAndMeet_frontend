@@ -10,6 +10,7 @@ export class NotificationModel {
     content: string;
     is_read: boolean;
     eventId?: number;
+    entityImage: string;
 
     constructor(data?: any) {
         this.id = data?.id || 0;
@@ -21,6 +22,7 @@ export class NotificationModel {
         this.title = data?.title ? data.title : this.setTitle(this.notificationType);
         this.content = data?.content || '';
         this.eventId = data?.eventId;
+        this.entityImage = data?.entityImage || '';
     }
 
     setTitle(type: string): string {
