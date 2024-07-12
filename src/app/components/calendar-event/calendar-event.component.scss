@@ -1,0 +1,60 @@
+.cal-event {
+    border-radius: 5px;
+    padding: 7px 11px 7px 17px;
+    background-color: white;
+    position: relative;
+    cursor: pointer;
+
+    &.pending {
+        border: 1px solid var(--event-pending);
+        border-left: 6px solid var(--event-pending);
+    }
+
+    &.accepted {
+        border: 1px solid var(--event-accepted);
+        border-left: 6px solid var(--event-accepted);
+    }
+
+    &.declined {
+        border: 1px solid var(--event-declined);
+        border-left: 6px solid var(--event-declined);
+    }
+
+    &.available {
+        border: 1px solid var(--event-available);
+        border-left: 6px solid var(--event-available);
+    }
+
+    &.unavailable {
+        border: 1px solid var(--event-unavailable);
+        border-left: 6px solid var(--event-unavailable);
+    }
+
+    .cal-event-time {
+        // padding: 0.2rem 0 0.2rem 0.2rem;
+        cursor: pointer;
+        color: var(--primary-color);
+        font-size: 10px;
+    }
+
+    .cal-event-title {
+        color: var(--primary-color);
+        font-size: 11px;
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+
+    .bottom-section {
+        display: flex;
+
+        .waiting {
+            margin-left: auto;
+        }
+    }
+}
+.event-container {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    min-width: 350px;
+}

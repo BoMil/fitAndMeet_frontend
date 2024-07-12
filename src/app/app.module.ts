@@ -19,7 +19,6 @@ import { HomePageComponent } from './components/pages/home-page/home-page.compon
 import { CustomCarouselComponent } from './common/custom-carousel/custom-carousel.component';
 import { InfoBoxComponent } from './components/info-box/info-box.component';
 import {LayoutModule} from '@angular/cdk/layout';
-import { EventsLegendComponent } from './components/pages/business-user-dashboard-page/events-legend/events-legend.component';
 import { HttpInterceptorService } from './_helpers/interceptor';
 import { RegularTabsComponent } from './components/regular-tabs/regular-tabs.component';
 import { CompanyInfoBoxComponent } from './components/company-info-box/company-info-box.component';
@@ -53,7 +52,6 @@ const appConfig = new AppConfig();
         HomePageComponent,
         CustomCarouselComponent,
         InfoBoxComponent,
-        EventsLegendComponent,
         RegularTabsComponent,
         CompanyInfoBoxComponent,
         BusinessUserDashboardPageComponent,

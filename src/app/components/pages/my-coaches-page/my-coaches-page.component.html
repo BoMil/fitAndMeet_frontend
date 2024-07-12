@@ -1,25 +1,30 @@
 <div class="scheduler-container">
+
     <div class="calendar-container">
+        <div class="legend-container">
+            <div class="legend-item">
+                <span class="dot accepted"></span><span class="legend-text">Potvrđen,</span>
+            </div>
+            <div class="legend-item">
+                <span class="dot pending"></span><span class="legend-text">Na čekanju,</span>
+            </div>
+            <div class="legend-item">
+                <span class="dot available"></span><span class="legend-text">Prazan termin</span>
+            </div>
+        </div>
+    
         <full-calendar #calendar [options]="calendarOptions">
             <ng-template #eventContent let-arg>
-                <div class="cal-event" [ngClass]="{
-                    available: arg.event.extendedProps?.status === 'available',
-                    unavailable: arg.event.extendedProps?.status === 'unavailable',
-                    pending: arg.event.extendedProps?.status === 'pending',
-                    accepted: arg.event.extendedProps?.status === 'accepted',
-                    declined: arg.event.extendedProps?.status === 'declined'}">
-                    <b class="cal-event-time" [ngClass]="{
-                        available: arg.event.extendedProps?.status === 'available',
-                        unavailable: arg.event.extendedProps?.status === 'unavailable',
-                        pending: arg.event.extendedProps?.status === 'pending',
-                        accepted: arg.event.extendedProps?.status === 'accepted',
-                        declined: arg.event.extendedProps?.status === 'declined'}">
-                        {{ arg.timeText }}
-                    </b>
-                    <i class="cal-event-title" >
-                        {{ arg.event.title }}
-                    </i>
-                </div>
+                <calendar-event
+                    (bookEvent)="bookEvent($event)"
+                    [isEndUser]="authStateService.currentUser?.role === role.END_USER"
+                    [availableEvents]="buDashboardStateService.allEvents"
+                    [status]="arg.event.extendedProps?.status"
+                    [title]="arg.event?.title"
+                    [eventId]="arg.event?.id"
+                    [timeText]="arg.timeText"
+                    [numberOfAttendees]="arg.event.extendedProps?.numberOfAttendees"
+                    [acceptedAttendees]="arg.event.extendedProps?.acceptedAttendees" />
             </ng-template>
         </full-calendar>
     </div>
@@ -50,7 +55,7 @@
     <div class="events-container">
 
         <div class="event-item" *ngFor="let event of buDashboardStateService.selectedDayEvents">
-            <app-event-box
+            <event-box
                 (bookEvent)="bookEvent($event)"
                 [data]="event"
                 [isEndUser]="authStateService.currentUser?.role === role.END_USER" />

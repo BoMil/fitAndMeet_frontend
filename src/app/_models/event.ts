@@ -14,7 +14,7 @@ export class EventModel {
     userStatus: UserEventStatus;
     numberOfAttendees: number;
     userEvents: UserEvent[];
-    ecceptedAttendees: number;
+    acceptedAttendees: number;
     sortedEventUsers: SortedEventUsers;
 
     constructor(data: any) {
@@ -30,7 +30,7 @@ export class EventModel {
         this.userStatus = data?.userStatus;
         this.numberOfAttendees = data?.numberOfAttendees ?? 1;
         this.userEvents = data?.userEvents?.length ? data?.userEvents.map((el: any) => new UserEvent(el)) : [];
-        this.ecceptedAttendees = this.calculateAcceptedAttendees(this.userEvents);
+        this.acceptedAttendees = this.calculateAcceptedAttendees(this.userEvents);
         this.sortedEventUsers = this.sortUsersByStatus(this.userEvents);
     }
 

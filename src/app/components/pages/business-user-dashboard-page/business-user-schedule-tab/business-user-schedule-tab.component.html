@@ -31,15 +31,12 @@
             </ng-template>
         </full-calendar>
 
-        <div class="legend">
-            <app-events-legend />
-        </div>
     </div>
 
     <div class="events-container">
         <h2>Events for a selected day</h2>
         <div class="event-item" *ngFor="let event of buDashboardStateService.selectedDayEvents">
-            <!-- <app-event-box
+            <!-- <event-box
                 (bookEvent)="bookEvent($event)"
                 [data]="event"
                 [isEndUser]="authStateService.currentUser?.role === role.END_USER" /> -->

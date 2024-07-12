@@ -39,47 +39,6 @@
             border: none !important;
         }
 
-        .pending {
-            background-color: var(--event-pending);
-            color: white;
-        }
-
-        .accepted {
-            background-color: var(--event-accepted);
-            color: white;
-        }
-
-        .declined {
-            background-color: var(--event-declined);
-            color: white;
-        }
-
-        .available {
-            background-color: var(--event-available);
-            color: white;
-        }
-
-        .unavailable {
-            background-color: var(--event-unavailable);
-            color: white;
-        }
-
-        .cal-event {
-            overflow: hidden;
-            border-radius: 4px;
-
-            .cal-event-time {
-                padding: 0.2rem 0 0.2rem 0.2rem;
-                cursor: pointer;
-            }
-    
-            .cal-event-title {
-                padding: 0.2rem 0.2rem 0.2rem 0;
-
-                cursor: pointer;
-            }
-        }
-
         .fc-toolbar-title {
             color: var(--text-grey-primary);
             font-size: 20px;
@@ -88,6 +47,8 @@
         }
 
         .fc-toolbar-chunk {
+            margin-right: 10px;
+
             button {
                 color: var(--text-grey-primary);
                 background-color: white;
@@ -106,5 +67,9 @@
             color: var(--text-grey-primary);
         }
 
+        .fc-toolbar {
+            justify-content: center !important;
+            padding-left: 100px;
+        }
     }
 }

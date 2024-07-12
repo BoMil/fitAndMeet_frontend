@@ -5,7 +5,7 @@ import { AvatarImageComponent } from '../../../../_modules/shared/standalone/ava
 import { MultipleAvatarsComponent } from '../../../../_modules/shared/standalone/multiple-avatars/multiple-avatars.component';
 
 @Component({
-  selector: 'app-event-box',
+  selector: 'event-box',
   templateUrl: './event-box.component.html',
   styleUrls: ['./event-box.component.scss'],
   standalone: true,

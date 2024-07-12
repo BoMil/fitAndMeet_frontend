@@ -18,7 +18,8 @@ export class EventsRepackService {
           start: element.start_at,
           end: element.end_at,
           status: element.userStatus,
-          numberOfAttendees: element.numberOfAttendees
+          numberOfAttendees: element.numberOfAttendees,
+          acceptedAttendees: element.acceptedAttendees,
         }
       },
     )

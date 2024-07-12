@@ -23,6 +23,7 @@ import { EventsApiService } from '../../../_services/events/events-api.service';
 import { EventsRepackService } from '../../../_services/events/events-repack.service';
 import { EventBoxComponent } from '../business-user-dashboard-page/event-box/event-box.component';
 import { BookEventRequest } from '../../../_interfaces/book-event-request';
+import { CalendarEventComponent } from '../../calendar-event/calendar-event.component';
 
 @Component({
   selector: 'app-my-coaches-page',
@@ -32,9 +33,10 @@ import { BookEventRequest } from '../../../_interfaces/book-event-request';
     CommonModule,
     CoachContactBoxComponent,
     EventBoxComponent,
+    CalendarEventComponent
   ],
   templateUrl: './my-coaches-page.component.html',
-  styleUrls: ['./my-coaches-page.component.scss', '../../../../styles/_calendar.scss', '../../../../styles/_keen_slider.scss']
+  styleUrls: ['./my-coaches-page.component.scss', '../../../../styles/_calendar.scss', '../../../../styles/_keen_slider.scss',  '../../../../styles/_legend.scss',]
 })
 export class MyCoachesPageComponent implements OnInit, OnDestroy, AfterViewInit {
     calendarOptions: CalendarOptions = {

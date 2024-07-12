@@ -153,19 +153,7 @@
         }
 
         .attendees-num {
-            border-radius: 5px;
-            border: 1px solid var(--darker-blue);
-            color: var(--darker-blue);
-            width: max-content;
-            padding: 6px 12px;
             margin-top: 24px;
-
-            .attendees-value {
-                vertical-align: text-bottom;
-                margin-left: 8px;
-                color: var(--primary-color);
-            
-            }
         }
     }
 
